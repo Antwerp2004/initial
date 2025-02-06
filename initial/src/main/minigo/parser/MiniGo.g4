@@ -34,7 +34,7 @@ vardecl: 'var' ID 'int' ';' ;
 
 funcdecl: 'func' ID '(' ')' '{' '}' ';' ;
 
-ID: [a-z]+;
+IDENTIFIER: [a-z]+;
 
 NL: '\n' -> skip; //skip newlines
 
