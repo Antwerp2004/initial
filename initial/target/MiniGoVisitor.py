@@ -29,5 +29,25 @@ class MiniGoVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by MiniGoParser#multiply_operator.
+    def visitMultiply_operator(self, ctx:MiniGoParser.Multiply_operatorContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MiniGoParser#add_operator.
+    def visitAdd_operator(self, ctx:MiniGoParser.Add_operatorContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MiniGoParser#related_operator.
+    def visitRelated_operator(self, ctx:MiniGoParser.Related_operatorContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MiniGoParser#logical_operator.
+    def visitLogical_operator(self, ctx:MiniGoParser.Logical_operatorContext):
+        return self.visitChildren(ctx)
+
+
 
 del MiniGoParser

@@ -1,1 +1,1 @@
-ab?sVN
+var abc int ;

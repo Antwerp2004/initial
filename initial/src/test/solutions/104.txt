@@ -1,1 +1,1 @@
-func,abc,(,),<EOF>
+4.E-6,<EOF>

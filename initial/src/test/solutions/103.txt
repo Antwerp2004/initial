@@ -1,1 +1,1 @@
-var,abc,int,;,<EOF>
+func,abc,(,),<EOF>

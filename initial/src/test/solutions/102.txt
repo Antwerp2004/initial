@@ -1,1 +1,1 @@
-ab,ErrorToken ?
+var,abc,int,;,<EOF>

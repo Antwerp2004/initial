@@ -30,11 +30,46 @@ program  : decl+ EOF ;
 
 decl: funcdecl | vardecl  ;
 
-vardecl: 'var' ID 'int' ';' ;
+vardecl: 'var' IDENTIFIER 'int' ';' ;
 
-funcdecl: 'func' ID '(' ')' '{' '}' ';' ;
+funcdecl: 'func' IDENTIFIER '(' ')' '{' '}' ';' ;
 
-IDENTIFIER: [a-z]+;
+// Operators
+multiply_operator: '*' | '/' | '%';
+add_operator: '+' | '-';
+related_operator: '==' | '!=' | '>=' | '<=' | '>' | '<';
+logical_operator: '&&' | '||';
+
+// Keywords
+IF: 'if';
+ELSE: 'else';
+FOR: 'for';
+RETURN: 'return';
+FUNC: 'func';
+TYPE: 'type';
+STRUCT: 'struct';
+INTERFACE: 'interface';
+STRING: 'string';
+INT: 'int';
+FLOAT: 'float';
+BOOLEAN: 'boolean';
+CONST: 'const';
+VAR: 'var';
+CONTINUE: 'continue';
+BREAK: 'break';
+RANGE: 'range';
+NIL: 'nil';
+BOOLEAN_LITERAL: 'true' | 'false';
+
+// Literals
+// Floating-point Literals
+FLOATING_POINT_LITERAL: INT_PART '.' DECI_PART? EXP_PART?;
+fragment INT_PART: [0-9]+;
+fragment DECI_PART: [0-9]*;
+fragment EXP_PART: [eE] [+-]? [0-9]+;
+
+// Identifiers
+IDENTIFIER: [A-Za-z_] [A-Za-z_0-9]*;
 
 NL: '\n' -> skip; //skip newlines
 
