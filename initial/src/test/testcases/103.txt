@@ -1,1 +1,1 @@
-func abc ( ) 
+"Tokyo	Ghoul\n,<EOF>"

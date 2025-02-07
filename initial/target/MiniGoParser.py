@@ -11,7 +11,7 @@ else:
 
 def serializedATN():
     with StringIO() as buf:
-        buf.write("\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3.")
+        buf.write("\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\64")
         buf.write("\63\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4")
         buf.write("\b\t\b\4\t\t\t\3\2\6\2\24\n\2\r\2\16\2\25\3\2\3\2\3\3")
         buf.write("\3\3\5\3\34\n\3\3\4\3\4\3\4\3\4\3\4\3\5\3\5\3\5\3\5\3")
@@ -22,8 +22,8 @@ def serializedATN():
         buf.write("\22\24\5\4\3\2\23\22\3\2\2\2\24\25\3\2\2\2\25\23\3\2\2")
         buf.write("\2\25\26\3\2\2\2\26\27\3\2\2\2\27\30\7\2\2\3\30\3\3\2")
         buf.write("\2\2\31\34\5\b\5\2\32\34\5\6\4\2\33\31\3\2\2\2\33\32\3")
-        buf.write("\2\2\2\34\5\3\2\2\2\35\36\7\"\2\2\36\37\7)\2\2\37 \7\36")
-        buf.write("\2\2 !\7\3\2\2!\7\3\2\2\2\"#\7\31\2\2#$\7)\2\2$%\7\4\2")
+        buf.write("\2\2\2\34\5\3\2\2\2\35\36\7\"\2\2\36\37\7/\2\2\37 \7\36")
+        buf.write("\2\2 !\7\3\2\2!\7\3\2\2\2\"#\7\31\2\2#$\7/\2\2$%\7\4\2")
         buf.write("\2%&\7\5\2\2&\'\7\6\2\2\'(\7\7\2\2()\7\3\2\2)\t\3\2\2")
         buf.write("\2*+\t\2\2\2+\13\3\2\2\2,-\t\3\2\2-\r\3\2\2\2./\t\4\2")
         buf.write("\2/\17\3\2\2\2\60\61\t\5\2\2\61\21\3\2\2\2\4\25\33")
@@ -46,7 +46,9 @@ class MiniGoParser ( Parser ):
                      "'for'", "'return'", "'func'", "'type'", "'struct'", 
                      "'interface'", "'string'", "'int'", "'float'", "'boolean'", 
                      "'const'", "'var'", "'continue'", "'break'", "'range'", 
-                     "'nil'", "<INVALID>", "<INVALID>", "<INVALID>", "'\n'" ]
+                     "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
+                     "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
+                     "'nil'", "<INVALID>", "'\n'" ]
 
     symbolicNames = [ "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
                       "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
@@ -55,9 +57,10 @@ class MiniGoParser ( Parser ):
                       "<INVALID>", "<INVALID>", "<INVALID>", "IF", "ELSE", 
                       "FOR", "RETURN", "FUNC", "TYPE", "STRUCT", "INTERFACE", 
                       "STRING", "INT", "FLOAT", "BOOLEAN", "CONST", "VAR", 
-                      "CONTINUE", "BREAK", "RANGE", "NIL", "BOOLEAN_LITERAL", 
-                      "FLOATING_POINT_LITERAL", "IDENTIFIER", "NL", "WS", 
-                      "ERROR_CHAR", "ILLEGAL_ESCAPE", "UNCLOSE_STRING" ]
+                      "CONTINUE", "BREAK", "RANGE", "INTEGER_LITERAL", "DECIMAL_INT", 
+                      "BINARY_INT", "OCTAL_INT", "HEXA_INT", "FLOATING_POINT_LITERAL", 
+                      "STRING_LITERAL", "BOOLEAN_LITERAL", "NIL", "IDENTIFIER", 
+                      "NL", "WS", "ILLEGAL_ESCAPE", "UNCLOSE_STRING", "ERROR_CHAR" ]
 
     RULE_program = 0
     RULE_decl = 1
@@ -107,15 +110,21 @@ class MiniGoParser ( Parser ):
     CONTINUE=33
     BREAK=34
     RANGE=35
-    NIL=36
-    BOOLEAN_LITERAL=37
-    FLOATING_POINT_LITERAL=38
-    IDENTIFIER=39
-    NL=40
-    WS=41
-    ERROR_CHAR=42
-    ILLEGAL_ESCAPE=43
-    UNCLOSE_STRING=44
+    INTEGER_LITERAL=36
+    DECIMAL_INT=37
+    BINARY_INT=38
+    OCTAL_INT=39
+    HEXA_INT=40
+    FLOATING_POINT_LITERAL=41
+    STRING_LITERAL=42
+    BOOLEAN_LITERAL=43
+    NIL=44
+    IDENTIFIER=45
+    NL=46
+    WS=47
+    ILLEGAL_ESCAPE=48
+    UNCLOSE_STRING=49
+    ERROR_CHAR=50
 
     def __init__(self, input:TokenStream, output:TextIO = sys.stdout):
         super().__init__(input, output)
