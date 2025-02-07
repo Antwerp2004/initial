@@ -6,151 +6,151 @@ class LexerSuite(unittest.TestCase):
       
     ##### String-literal testcases #####
     def test_lexer_00(self):
-        inp = "\"\""
+        inp = """ "" """
         out = ",<EOF>"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
     def test_lexer_01(self):
-        inp = "\"\n\""
-        out = ",<EOF>"
+        inp = """ "\n" """
+        out = "Unclosed string: "
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
     def test_lexer_02(self):
-        inp = "\"black \\&Clover\"?"
-        out = "Illegal Escape In String: black \&"
+        inp = """ "black \\&Clover"? """
+        out = "Illegal escape in string: black \&"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
     def test_lexer_03(self):
-        inp = "\"Tokyo\tGhoul\\n,<EOF>\""
+        inp = """ "Tokyo\tGhoul\\n,<EOF>" """
         out = "Tokyo\tGhoul\\n,<EOF>,<EOF>"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
     def test_lexer_04(self):
-        inp = "\"kaiju'no\\'8\""
-        out = "kaiju'no\\'8,<EOF>"
+        inp = """ "kaiju'no\\'8" """
+        out = "Illegal escape in string: kaiju'no\\'"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
     def test_lexer_05(self):
-        inp = "\"one_Piece\"!"
-        out = "one_Piece,Error Token !"
+        inp = """ "one_Piece"! """
+        out = "one_Piece,ErrorToken !"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
     def test_lexer_06(self):
-        inp = "\"no.ra\\ga.mi\""
-        out = "Illegal Escape In String: no.ra\\g"
+        inp = """ "no.ra\\ga.mi" """
+        out = "Illegal escape in string: no.ra\\g"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
     def test_lexer_07(self):
-        inp = "\"Kaguya-sama: '\"Love is War'\"\""
+        inp = """ "Kaguya-sama: '\"Love is War'\"" """
         out = "Kaguya-sama: '\"Love is War'\",<EOF>"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
     def test_lexer_08(self):
-        inp = "\"dr.Stone\\r\\b  \\n\\t\\f' \""
-        out = "dr.Stone\\r\\b  \\n\\t\\f' ,<EOF>"
+        inp = """ "dr.Stone\\r\\b  \\n\\t\\f' " """
+        out = "Illegal escape in string: dr.Stone\\r\\b"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
     def test_lexer_09(self):
-        inp = "\"Fate/stay night: \nHeaven\'s Feel\""
-        out = "Unclosed String: Fate/stay night: "
+        inp = """ "Fate/stay night: \nHeaven\'s Feel" """
+        out = "Unclosed string: Fate/stay night: "
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
     def test_lexer_10(self):
-        inp = "\"gintama'\""
-        out = "Unclosed String: gintama'\""
+        inp = """ "gintama'" """
+        out = "gintama',<EOF>"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
     def test_lexer_11(self):
-        inp = "\"spy\\'\"x family\""
-        out = "spy\\',x,family,Unclosed String: "
+        inp = """ "spy\\'"x family" """
+        out = "Illegal escape in string: spy\\'"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
     def test_lexer_12(self):
-        inp = "Magi\""
-        out = "Magi,Unclosed String: "
+        inp = """ Magi" """
+        out = "Magi,Unclosed string:  "
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
     def test_lexer_13(self):
-        inp = "\"sousou,no,'\\\\frieren ~!@#$%^&*()_+[;]\""
+        inp = """ "sousou,no,'\\\\frieren ~!@#$%^&*()_+[;]" """
         out = "sousou,no,'\\\\frieren ~!@#$%^&*()_+[;],<EOF>"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
     def test_lexer_14(self):
-        inp = "\"oshi\' no\\ko\""
-        out = "Illegal Escape In String: oshi\' no\\k"
+        inp = """ "oshi\' no\\ko" """
+        out = "Illegal escape in string: oshi\' no\\k"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
     def test_lexer_15(self):
-        inp = "\"sakamoto\" days'\""
-        out = "sakamoto,days,Error Token '"
+        inp = """ "sakamoto" days'" """
+        out = "sakamoto,days,ErrorToken '"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
     def test_lexer_16(self):
-        inp = "\"81194 + 63194 + 22194\""
+        inp = """ "81194 + 63194 + 22194" """
         out = "81194 + 63194 + 22194,<EOF>"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
     def test_lexer_17(self):
-        inp = "\"func main() return 1\""
+        inp = """ "func main() return 1" """
         out = "func main() return 1,<EOF>"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
     def test_lexer_18(self):
-        inp = "\"\"Kimetsu=no\" yaiba\""
+        inp = """ ""Kimetsu=no" yaiba" """
         out = ",Kimetsu,=,no, yaiba,<EOF>"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
     def test_lexer_19(self):
-        inp = "\"Dark^Gathering"
-        out = "Unclosed String: Dark^Gathering"
+        inp = """ "Dark^Gathering """
+        out = "Unclosed string: Dark^Gathering "
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
     def test_lexer_20(self):
-        inp = "\"rurouni |kenshin\\\""
-        out = "Illegal Escape In String: rurouni |kenshin\\\""
+        inp = """ "rurouni |kenshin\\" """
+        out = """Unclosed string: rurouni |kenshin\" """
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
     def test_lexer_21(self):
-        inp = "\"'\""
-        out = "Unclosed String: '\""
+        inp = """ "'" """
+        out = "',<EOF>"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
     def test_lexer_22(self):
-        inp = "\"{Kusuriya<h>no`<\\\\h>hitorigoto}\""
+        inp = """ "{Kusuriya<h>no`<\\\\h>hitorigoto}" """
         out = "{Kusuriya<h>no`<\\\\h>hitorigoto},<EOF>"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
     def test_lexer_23(self):
-        inp = "\"nanatsu.\''no?taizai\""
+        inp = """ "nanatsu.\''no?taizai" """
         out = "nanatsu.\''no?taizai,<EOF>"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
     def test_lexer_24(self):
-        inp = "\"''bleach'''\\'\""
-        out = "''bleach'''\\',<EOF>"
+        inp = """ "''bleach'''\\'" """
+        out = "Illegal escape in string: ''bleach'''\\'"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))

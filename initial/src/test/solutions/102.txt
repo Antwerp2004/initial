@@ -1,1 +1,1 @@
-name 'IllegalEscapeInString' is not defined
+Illegal escape in string: black \&

@@ -11,7 +11,7 @@ else:
 
 def serializedATN():
     with StringIO() as buf:
-        buf.write("\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\64")
+        buf.write("\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\63")
         buf.write("\63\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4")
         buf.write("\b\t\b\4\t\t\t\3\2\6\2\24\n\2\r\2\16\2\25\3\2\3\2\3\3")
         buf.write("\3\3\5\3\34\n\3\3\4\3\4\3\4\3\4\3\4\3\5\3\5\3\5\3\5\3")
@@ -48,7 +48,7 @@ class MiniGoParser ( Parser ):
                      "'const'", "'var'", "'continue'", "'break'", "'range'", 
                      "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
                      "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
-                     "'nil'", "<INVALID>", "'\n'" ]
+                     "'nil'" ]
 
     symbolicNames = [ "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
                       "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
@@ -60,7 +60,8 @@ class MiniGoParser ( Parser ):
                       "CONTINUE", "BREAK", "RANGE", "INTEGER_LITERAL", "DECIMAL_INT", 
                       "BINARY_INT", "OCTAL_INT", "HEXA_INT", "FLOATING_POINT_LITERAL", 
                       "STRING_LITERAL", "BOOLEAN_LITERAL", "NIL", "IDENTIFIER", 
-                      "NL", "WS", "ILLEGAL_ESCAPE", "UNCLOSE_STRING", "ERROR_CHAR" ]
+                      "WHITESPACE", "ILLEGAL_ESCAPE", "UNCLOSE_STRING", 
+                      "ERROR_CHAR" ]
 
     RULE_program = 0
     RULE_decl = 1
@@ -120,11 +121,10 @@ class MiniGoParser ( Parser ):
     BOOLEAN_LITERAL=43
     NIL=44
     IDENTIFIER=45
-    NL=46
-    WS=47
-    ILLEGAL_ESCAPE=48
-    UNCLOSE_STRING=49
-    ERROR_CHAR=50
+    WHITESPACE=46
+    ILLEGAL_ESCAPE=47
+    UNCLOSE_STRING=48
+    ERROR_CHAR=49
 
     def __init__(self, input:TokenStream, output:TextIO = sys.stdout):
         super().__init__(input, output)

@@ -1,2 +1,1 @@
-Fate/stay night: 
-Heaven's Feel,<EOF>
+Unclosed string: Fate/stay night: 

@@ -11,10 +11,10 @@ def emit(self):
     tk = self.type
     if tk == self.UNCLOSE_STRING:       
         result = super().emit();
-        raise UnclosedString(result.text[1:]);
+        raise UncloseString(result.text[1:].replace("\r","").replace("\n",""));
     elif tk == self.ILLEGAL_ESCAPE:
         result = super().emit();
-        raise IllegalEscapeInString(result.text[1:]);
+        raise IllegalEscape(result.text[1:]);
     elif tk == self.ERROR_CHAR:
         result = super().emit();
         raise ErrorToken(result.text); 
@@ -77,10 +77,10 @@ fragment EXP_PART: [eE] [+-]? [0-9]+;
 
 // String Literals
 STRING_LITERAL: (DOUBLE_QUOTE DOUBLE_QUOTE) | (DOUBLE_QUOTE INSIDE_STRING+ DOUBLE_QUOTE) {self.text = self.text[1:-1]};
-fragment INSIDE_STRING: ESCAPE_SEQUENCE | ~["\\];
+fragment INSIDE_STRING: ESCAPE_SEQUENCE | ~[\n\r"\\];
 fragment DOUBLE_QUOTE: ["];
 fragment BACKLASH: '\\';
-fragment ESCAPE_SEQUENCE: (BACKLASH [ntr]) | (BACKLASH ["]) | (BACKLASH BACKLASH); 
+fragment ESCAPE_SEQUENCE: (BACKLASH [ntr]) | (BACKLASH DOUBLE_QUOTE) | (BACKLASH BACKLASH);
 
 // Boolean Literals
 BOOLEAN_LITERAL: 'true' | 'false';
@@ -92,10 +92,10 @@ NIL: 'nil';
 // Identifiers
 IDENTIFIER: [A-Za-z_] [A-Za-z_0-9]*;
 
-NL: '\n' -> skip; //skip newlines
+// Whitespace
+WHITESPACE: [ \t\f\r] -> skip;
 
-WS : [ \t\r]+ -> skip ; // skip spaces, tabs 
 
-ILLEGAL_ESCAPE: DOUBLE_QUOTE INSIDE_STRING* ~[ntr\\];
-UNCLOSE_STRING: DOUBLE_QUOTE INSIDE_STRING* EOF;
+ILLEGAL_ESCAPE: DOUBLE_QUOTE INSIDE_STRING* BACKLASH ~[ntr\\];
+UNCLOSE_STRING: DOUBLE_QUOTE INSIDE_STRING* ([\r\n] | EOF);
 ERROR_CHAR: .;
