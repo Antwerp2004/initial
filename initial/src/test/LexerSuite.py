@@ -18,7 +18,7 @@ class LexerSuite(unittest.TestCase):
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
     def test_lexer_02(self):
-        inp = """ "black \\&Clover"? """
+        inp = """ "black \&Clover"? """
         out = "Illegal escape in string: black \&"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
@@ -36,8 +36,8 @@ class LexerSuite(unittest.TestCase):
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
     def test_lexer_05(self):
-        inp = """ "one_Piece"! """
-        out = "one_Piece,ErrorToken !"
+        inp = """ "one_Piece"+ """
+        out = "one_Piece,+,<EOF>"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
@@ -49,7 +49,7 @@ class LexerSuite(unittest.TestCase):
 
     def test_lexer_07(self):
         inp = """ "Kaguya-sama: '\"Love is War'\"" """
-        out = "Kaguya-sama: '\"Love is War'\",<EOF>"
+        out = "Kaguya-sama: ',Love,is,War,ErrorToken '"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
@@ -114,8 +114,8 @@ class LexerSuite(unittest.TestCase):
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
     def test_lexer_18(self):
-        inp = """ ""Kimetsu=no" yaiba" """
-        out = ",Kimetsu,=,no, yaiba,<EOF>"
+        inp = """ ""Kimetsu==no" yaiba" """
+        out = ",Kimetsu,==,no, yaiba,<EOF>"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
@@ -126,8 +126,8 @@ class LexerSuite(unittest.TestCase):
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
     def test_lexer_20(self):
-        inp = """ "rurouni |kenshin\\" """
-        out = """Unclosed string: rurouni |kenshin\" """
+        inp = """ "rurouni |kenshin\"abc\"bb" """
+        out = """rurouni |kenshin,abc,bb,<EOF>"""
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
@@ -152,5 +152,14 @@ class LexerSuite(unittest.TestCase):
     def test_lexer_24(self):
         inp = """ "''bleach'''\\'" """
         out = "Illegal escape in string: ''bleach'''\\'"
+        LexerSuite.lexerTest += 1
+        self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
+
+
+    ##### Syntax testcases #####
+    def test_lexer_25(self):
+        inp = \
+            """/*func max(number a, number b)*/"""
+        out = "<EOF>"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))

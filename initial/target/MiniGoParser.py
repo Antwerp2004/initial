@@ -11,7 +11,7 @@ else:
 
 def serializedATN():
     with StringIO() as buf:
-        buf.write("\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\63")
+        buf.write("\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\66")
         buf.write("\63\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4")
         buf.write("\b\t\b\4\t\t\t\3\2\6\2\24\n\2\r\2\16\2\25\3\2\3\2\3\3")
         buf.write("\3\3\5\3\34\n\3\3\4\3\4\3\4\3\4\3\4\3\5\3\5\3\5\3\5\3")
@@ -22,11 +22,11 @@ def serializedATN():
         buf.write("\22\24\5\4\3\2\23\22\3\2\2\2\24\25\3\2\2\2\25\23\3\2\2")
         buf.write("\2\25\26\3\2\2\2\26\27\3\2\2\2\27\30\7\2\2\3\30\3\3\2")
         buf.write("\2\2\31\34\5\b\5\2\32\34\5\6\4\2\33\31\3\2\2\2\33\32\3")
-        buf.write("\2\2\2\34\5\3\2\2\2\35\36\7\"\2\2\36\37\7/\2\2\37 \7\36")
-        buf.write("\2\2 !\7\3\2\2!\7\3\2\2\2\"#\7\31\2\2#$\7/\2\2$%\7\4\2")
-        buf.write("\2%&\7\5\2\2&\'\7\6\2\2\'(\7\7\2\2()\7\3\2\2)\t\3\2\2")
-        buf.write("\2*+\t\2\2\2+\13\3\2\2\2,-\t\3\2\2-\r\3\2\2\2./\t\4\2")
-        buf.write("\2/\17\3\2\2\2\60\61\t\5\2\2\61\21\3\2\2\2\4\25\33")
+        buf.write("\2\2\2\34\5\3\2\2\2\35\36\7$\2\2\36\37\7\62\2\2\37 \7")
+        buf.write(" \2\2 !\7\3\2\2!\7\3\2\2\2\"#\7\33\2\2#$\7\62\2\2$%\7")
+        buf.write("\4\2\2%&\7\5\2\2&\'\7\6\2\2\'(\7\7\2\2()\7\3\2\2)\t\3")
+        buf.write("\2\2\2*+\t\2\2\2+\13\3\2\2\2,-\t\3\2\2-\r\3\2\2\2./\t")
+        buf.write("\4\2\2/\17\3\2\2\2\60\61\t\5\2\2\61\21\3\2\2\2\4\25\33")
         return buf.getvalue()
 
 
@@ -42,25 +42,26 @@ class MiniGoParser ( Parser ):
 
     literalNames = [ "<INVALID>", "';'", "'('", "')'", "'{'", "'}'", "'*'", 
                      "'/'", "'%'", "'+'", "'-'", "'=='", "'!='", "'>='", 
-                     "'<='", "'>'", "'<'", "'&&'", "'||'", "'if'", "'else'", 
-                     "'for'", "'return'", "'func'", "'type'", "'struct'", 
-                     "'interface'", "'string'", "'int'", "'float'", "'boolean'", 
-                     "'const'", "'var'", "'continue'", "'break'", "'range'", 
+                     "'<='", "'>'", "'<'", "'&&'", "'||'", "<INVALID>", 
+                     "<INVALID>", "'if'", "'else'", "'for'", "'return'", 
+                     "'func'", "'type'", "'struct'", "'interface'", "'string'", 
+                     "'int'", "'float'", "'boolean'", "'const'", "'var'", 
+                     "'continue'", "'break'", "'range'", "<INVALID>", "<INVALID>", 
                      "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
-                     "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
-                     "'nil'" ]
+                     "<INVALID>", "<INVALID>", "'nil'" ]
 
     symbolicNames = [ "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
                       "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
                       "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
                       "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
-                      "<INVALID>", "<INVALID>", "<INVALID>", "IF", "ELSE", 
-                      "FOR", "RETURN", "FUNC", "TYPE", "STRUCT", "INTERFACE", 
-                      "STRING", "INT", "FLOAT", "BOOLEAN", "CONST", "VAR", 
-                      "CONTINUE", "BREAK", "RANGE", "INTEGER_LITERAL", "DECIMAL_INT", 
-                      "BINARY_INT", "OCTAL_INT", "HEXA_INT", "FLOATING_POINT_LITERAL", 
-                      "STRING_LITERAL", "BOOLEAN_LITERAL", "NIL", "IDENTIFIER", 
-                      "WHITESPACE", "ILLEGAL_ESCAPE", "UNCLOSE_STRING", 
+                      "<INVALID>", "<INVALID>", "<INVALID>", "SINGLE_LINE_COMMENT", 
+                      "MULTI_LINE_COMMENT", "IF", "ELSE", "FOR", "RETURN", 
+                      "FUNC", "TYPE", "STRUCT", "INTERFACE", "STRING", "INT", 
+                      "FLOAT", "BOOLEAN", "CONST", "VAR", "CONTINUE", "BREAK", 
+                      "RANGE", "INTEGER_LITERAL", "DECIMAL_INT", "BINARY_INT", 
+                      "OCTAL_INT", "HEXA_INT", "FLOATING_POINT_LITERAL", 
+                      "STRING_LITERAL", "BOOLEAN_LITERAL", "NIL", "NEWLINE", 
+                      "IDENTIFIER", "WHITESPACE", "ILLEGAL_ESCAPE", "UNCLOSE_STRING", 
                       "ERROR_CHAR" ]
 
     RULE_program = 0
@@ -94,37 +95,40 @@ class MiniGoParser ( Parser ):
     T__15=16
     T__16=17
     T__17=18
-    IF=19
-    ELSE=20
-    FOR=21
-    RETURN=22
-    FUNC=23
-    TYPE=24
-    STRUCT=25
-    INTERFACE=26
-    STRING=27
-    INT=28
-    FLOAT=29
-    BOOLEAN=30
-    CONST=31
-    VAR=32
-    CONTINUE=33
-    BREAK=34
-    RANGE=35
-    INTEGER_LITERAL=36
-    DECIMAL_INT=37
-    BINARY_INT=38
-    OCTAL_INT=39
-    HEXA_INT=40
-    FLOATING_POINT_LITERAL=41
-    STRING_LITERAL=42
-    BOOLEAN_LITERAL=43
-    NIL=44
-    IDENTIFIER=45
-    WHITESPACE=46
-    ILLEGAL_ESCAPE=47
-    UNCLOSE_STRING=48
-    ERROR_CHAR=49
+    SINGLE_LINE_COMMENT=19
+    MULTI_LINE_COMMENT=20
+    IF=21
+    ELSE=22
+    FOR=23
+    RETURN=24
+    FUNC=25
+    TYPE=26
+    STRUCT=27
+    INTERFACE=28
+    STRING=29
+    INT=30
+    FLOAT=31
+    BOOLEAN=32
+    CONST=33
+    VAR=34
+    CONTINUE=35
+    BREAK=36
+    RANGE=37
+    INTEGER_LITERAL=38
+    DECIMAL_INT=39
+    BINARY_INT=40
+    OCTAL_INT=41
+    HEXA_INT=42
+    FLOATING_POINT_LITERAL=43
+    STRING_LITERAL=44
+    BOOLEAN_LITERAL=45
+    NIL=46
+    NEWLINE=47
+    IDENTIFIER=48
+    WHITESPACE=49
+    ILLEGAL_ESCAPE=50
+    UNCLOSE_STRING=51
+    ERROR_CHAR=52
 
     def __init__(self, input:TokenStream, output:TextIO = sys.stdout):
         super().__init__(input, output)

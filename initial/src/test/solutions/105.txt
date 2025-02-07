@@ -1,1 +1,1 @@
-one_Piece,ErrorToken !
+one_Piece,+,<EOF>

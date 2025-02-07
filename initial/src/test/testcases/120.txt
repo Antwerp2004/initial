@@ -1,1 +1,1 @@
- "rurouni |kenshin\" 
+ "rurouni |kenshin"abc"bb" 

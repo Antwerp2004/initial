@@ -20,6 +20,8 @@ def emit(self):
         raise ErrorToken(result.text); 
     else:
         return super().emit();
+
+int nestedCommentCount = 0;
 }
 
 options{
@@ -39,6 +41,13 @@ multiply_operator: '*' | '/' | '%';
 add_operator: '+' | '-';
 related_operator: '==' | '!=' | '>=' | '<=' | '>' | '<';
 logical_operator: '&&' | '||';
+
+
+// Comments
+// Single-line Comments
+SINGLE_LINE_COMMENT: '//' (~[\r\n])* -> skip;
+// Multi-line Comments
+
 
 
 // Keywords
@@ -76,7 +85,7 @@ fragment DECI_PART: [0-9]*;
 fragment EXP_PART: [eE] [+-]? [0-9]+;
 
 // String Literals
-STRING_LITERAL: (DOUBLE_QUOTE DOUBLE_QUOTE) | (DOUBLE_QUOTE INSIDE_STRING+ DOUBLE_QUOTE) {self.text = self.text[1:-1]};
+STRING_LITERAL: (DOUBLE_QUOTE DOUBLE_QUOTE | DOUBLE_QUOTE INSIDE_STRING+ DOUBLE_QUOTE) {self.text = self.text[1:-1]};
 fragment INSIDE_STRING: ESCAPE_SEQUENCE | ~[\n\r"\\];
 fragment DOUBLE_QUOTE: ["];
 fragment BACKLASH: '\\';
@@ -88,6 +97,8 @@ BOOLEAN_LITERAL: 'true' | 'false';
 // Nil Literal
 NIL: 'nil';
 
+
+NEWLINE: ('\r\n' | '\n') {self.text = '\n'};
 
 // Identifiers
 IDENTIFIER: [A-Za-z_] [A-Za-z_0-9]*;

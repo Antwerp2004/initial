@@ -1,0 +1,1 @@
+/*func max(number a, number b)*/,<EOF>

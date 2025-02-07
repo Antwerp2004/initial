@@ -1,1 +1,1 @@
-Unclosed string: rurouni |kenshin\" 
+rurouni |kenshin,abc,bb,<EOF>
