@@ -34,11 +34,63 @@ vardecl: 'var' IDENTIFIER 'int' ';' ;
 
 funcdecl: 'func' IDENTIFIER '(' ')' '{' '}' ';' ;
 
+typ: INT | FLOAT | STRING | BOOLEAN | STRUCT;
+
+// Expression
+expr: expr OR expr1 | expr1;
+expr1: expr1 AND expr2 | expr2;
+expr2: expr2 related_operator expr3 | expr3;
+expr3: expr3 add_operator expr4 | expr4;
+expr4: expr4 multiply_operator expr5 | expr5;
+expr5: (NOT | SUB) expr5 | expr6;
+expr6: expr6 (OPEN_BRACKET operand CLOSE_BRACKET)
+    | expr6 DOT operand
+    | operand;
+
+// Operand
+operand: INTEGER_LITERAL
+        | FLOATING_POINT_LITERAL
+        | STRING_LITERAL
+        | BOOLEAN_LITERAL
+        | IDENTIFIER
+        | func_call
+        | method_call
+        | sub_expr;
+
+sub_expr: OPEN_PARENTHESIS expr CLOSE_PARENTHESIS;
+// Function call
+func_call: IDENTIFIER OPEN_PARENTHESIS argument_list? CLOSE_PARENTHESIS;
+argument_list: expr (COMMA expr)*;
+// Method call
+method_call: IDENTIFIER DOT func_call;
+
+
+// Array type
+array_type: array_size_box array_type | array_size_box typ;
+array_size_box: OPEN_BRACKET expr CLOSE_BRACKET;
+
+// Array Literal
+array_literal: array_type OPEN_BRACE array_ele_list* CLOSE_BRACE;
+array_ele_list: expr (COMMA expr)*
+            | OPEN_BRACE array_ele_list CLOSE_BRACE;
+
+// Array access
+array_access: IDENTIFIER array_size_box+;
+
+
+// Struct Literal
+struct_literal: IDENTIFIER OPEN_BRACE struct_ele_list? CLOSE_BRACE;
+struct_ele_list: struct_ele (COMMA struct_ele)*;
+struct_ele: IDENTIFIER COLON expr;
+
+// Struct access
+struct_access: IDENTIFIER DOT IDENTIFIER;
+
+
 // Operators
 multiply_operator: MULTIPLY | DIVIDE | REMAIN;
 add_operator: ADD | SUB;
 related_operator: COMPARE_STR | NOT_EQ | GREATER_OR_EQ | LESS_OR_EQ | GREATER | LESS;
-logical_operator: AND | OR;
 
 
 // Comments
@@ -101,14 +153,15 @@ DOT: '.';
 
 
 // Separators
-OPEN_PARANTHESIS: '(';
-CLOSE_PARANTHESIS: ')';
-OPEN_SQUARE: '[';
-CLOSE_SQUARE: ']';
+OPEN_PARENTHESIS: '(';
+CLOSE_PARENTHESIS: ')';
+OPEN_BRACKET: '[';
+CLOSE_BRACKET: ']';
 OPEN_BRACE: '{';
 CLOSE_BRACE: '}';
 COMMA: ',';
 SEMICOLON: ';';
+COLON: ':';
 
 
 // Literals
@@ -136,7 +189,7 @@ fragment ESCAPE_SEQUENCE: (BACKLASH [ntr]) | (BACKLASH DOUBLE_QUOTE) | (BACKLASH
 BOOLEAN_LITERAL: 'true' | 'false';
 
 // Nil Literal
-NIL: 'nil';
+NIL_LITERAL: 'nil';
 
 
 NEWLINE: ('\r\n' | '\n') {self.text = '\n'};

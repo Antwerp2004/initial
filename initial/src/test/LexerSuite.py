@@ -258,7 +258,7 @@ class LexerSuite(unittest.TestCase):
     ##### Syntax testcases #####
     def test_lexer_40(self):
         inp = \
-            """//func max(number a, number b)"""
+            """[2][3]int{{1, 2, 3}, {4, 5, 6}}"""
         out = "<EOF>"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
