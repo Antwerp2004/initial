@@ -20,8 +20,6 @@ def emit(self):
         raise ErrorToken(result.text); 
     else:
         return super().emit();
-
-int nestedCommentCount = 0;
 }
 
 options{
@@ -37,10 +35,10 @@ vardecl: 'var' IDENTIFIER 'int' ';' ;
 funcdecl: 'func' IDENTIFIER '(' ')' '{' '}' ';' ;
 
 // Operators
-multiply_operator: '*' | '/' | '%';
-add_operator: '+' | '-';
-related_operator: '==' | '!=' | '>=' | '<=' | '>' | '<';
-logical_operator: '&&' | '||';
+multiply_operator: MULTIPLY | DIVIDE | REMAIN;
+add_operator: ADD | SUB;
+related_operator: COMPARE_STR | NOT_EQ | GREATER_OR_EQ | LESS_OR_EQ | GREATER | LESS;
+logical_operator: AND | OR;
 
 
 // Comments
@@ -68,6 +66,49 @@ VAR: 'var';
 CONTINUE: 'continue';
 BREAK: 'break';
 RANGE: 'range';
+
+
+// Operators
+// Arithmetic
+ADD: '+';
+SUB: '-';
+MULTIPLY: '*';
+DIVIDE: '/';
+REMAIN: '%';
+SHORT_ADD: '+=';
+SHORT_SUB: '-=';
+SHORT_MULTIPLY: '*=';
+SHORT_DIVIDE: '/=';
+SHORT_REMAIN: '%=';
+
+// Relational
+COMPARE_STR: '==';
+NOT_EQ: '!=';
+GREATER_OR_EQ: '>=';
+LESS_OR_EQ: '<=';
+GREATER: '>';
+LESS: '<';
+
+// Logical
+AND: '&&';
+OR: '||';
+NOT: '!';
+
+// Other
+DECL: ':=';
+EQUAL: '=';
+DOT: '.';
+
+
+// Separators
+OPEN_PARANTHESIS: '(';
+CLOSE_PARANTHESIS: ')';
+OPEN_SQUARE: '[';
+CLOSE_SQUARE: ']';
+OPEN_BRACE: '{';
+CLOSE_BRACE: '}';
+COMMA: ',';
+SEMICOLON: ';';
 
 
 // Literals

@@ -1,1 +1,1 @@
-one_Piece,+,<EOF>
+one_Piece,!,<EOF>

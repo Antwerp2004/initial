@@ -1,1 +1,1 @@
-/*func max(number a, number b)*/,<EOF>
+16,<EOF>
