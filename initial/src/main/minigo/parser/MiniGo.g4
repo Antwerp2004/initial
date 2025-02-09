@@ -30,43 +30,72 @@ program  : decl+ EOF ;
 
 decl: funcdecl | vardecl  ;
 
-vardecl: 'var' IDENTIFIER 'int' ';' ;
 
-funcdecl: 'func' IDENTIFIER '(' ')' '{' '}' ';' ;
+// Assignment Statement
+assign_stmt: lhs assign_operator expr SEMICOLON;
+lhs: IDENTIFIER | array_access | struct_access;
 
-typ: INT | FLOAT | STRING | BOOLEAN | STRUCT;
+
+// Variable declaration
+vardecl: VAR IDENTIFIER (typ | EQUAL expr | typ EQUAL expr) SEMICOLON;
+
+
+// Function
+// Function declaration
+func_decl: FUNC IDENTIFIER OPEN_PARENTHESIS param_list? CLOSE_PARENTHESIS typ? OPEN_BRACE function_body CLOSE_BRACE SEMICOLON;
+// Function call
+func_call: IDENTIFIER OPEN_PARENTHESIS argument_list? CLOSE_PARENTHESIS;
+argument_list: expr (COMMA expr)*;
+
+
+// Method
+// Method declaration
+method_decl: FUNC OPEN_PARENTHESIS IDENTIFIER IDENTIFIER CLOSE_PARENTHESIS 
+        IDENTIFIER OPEN_PARENTHESIS param_list? CLOSE_PARENTHESIS typ? OPEN_BRACE method_body CLOSE_BRACE SEMICOLON;
+method_body: function_body;
+// Method call
+method_call: IDENTIFIER DOT func_call;
+
+
+// Constant
+const_decl: CONST IDENTIFIER ASSIGNMENT_SIGN expr SEMICOLON;
+
+
+// Type
+primitive_type: INT | FLOAT | STRING | BOOLEAN;
+typ: primitive_type | IDENTIFIER | array_type;
+
 
 // Expression
 expr: expr OR expr1 | expr1;
 expr1: expr1 AND expr2 | expr2;
-expr2: expr2 related_operator expr3 | expr3;
-expr3: expr3 add_operator expr4 | expr4;
-expr4: expr4 multiply_operator expr5 | expr5;
-expr5: (NOT | SUB) expr5 | expr6;
-expr6: expr6 (OPEN_BRACKET operand CLOSE_BRACKET)
-    | expr6 DOT operand
-    | operand;
+expr2: expr2 relational_operator expr3 | expr3;
+expr3: expr3 arith_low_operator expr4 | expr4;
+expr4: expr4 arith_high_operator expr5 | expr5;
+expr5: (NOT | SUB) expr5 | operand;
+// Sub-expression
+sub_expr: OPEN_PARENTHESIS expr CLOSE_PARENTHESIS;
+
 
 // Operand
 operand: INTEGER_LITERAL
         | FLOATING_POINT_LITERAL
         | STRING_LITERAL
         | BOOLEAN_LITERAL
+        | array_access
+        | struct_access
         | IDENTIFIER
         | func_call
         | method_call
         | sub_expr;
 
-sub_expr: OPEN_PARENTHESIS expr CLOSE_PARENTHESIS;
-// Function call
-func_call: IDENTIFIER OPEN_PARENTHESIS argument_list? CLOSE_PARENTHESIS;
-argument_list: expr (COMMA expr)*;
-// Method call
-method_call: IDENTIFIER DOT func_call;
 
+// Array
+// Array declaration
+array_decl: VAR IDENTIFIER (OPEN_BRACKET (INTEGER_LITERAL | IDENTIFIER) CLOSE_BRACKET)+ (primitive_type | IDENTIFIER) SEMICOLON;
 
 // Array type
-array_type: array_size_box array_type | array_size_box typ;
+array_type: array_size_box array_type | array_size_box (primitive_type | IDENTIFIER);
 array_size_box: OPEN_BRACKET expr CLOSE_BRACKET;
 
 // Array Literal
@@ -75,22 +104,40 @@ array_ele_list: expr (COMMA expr)*
             | OPEN_BRACE array_ele_list CLOSE_BRACE;
 
 // Array access
-array_access: IDENTIFIER array_size_box+;
+array_access: array_access array_size_box | IDENTIFIER array_size_box;
 
+
+// Struct
+// Struct declaration
+struct_decl: TYPE IDENTIFIER STRUCT OPEN_BRACE field_list? CLOSE_BRACE SEMICOLON;
+field_list: IDENTIFIER (typ | array_type) SEMICOLON;
+
+// Struct assignment
+struct_assign: IDENTIFIER ASSIGNMENT_SIGN struct_literal SEMICOLON;
+// Modify struct field
+struct_field_modify: struct_literal ASSIGNMENT_SIGN expr SEMICOLON;
 
 // Struct Literal
 struct_literal: IDENTIFIER OPEN_BRACE struct_ele_list? CLOSE_BRACE;
 struct_ele_list: struct_ele (COMMA struct_ele)*;
 struct_ele: IDENTIFIER COLON expr;
-
 // Struct access
-struct_access: IDENTIFIER DOT IDENTIFIER;
+struct_access: struct_access DOT IDENTIFIER | IDENTIFIER DOT IDENTIFIER;
+
+
+// Interface
+// Interface declaration
+interface_decl: TYPE IDENTIFIER INTERFACE OPEN_BRACE interface_method* CLOSE_BRACE SEMICOLON;
+interface_method: IDENTIFIER OPEN_PARENTHESIS param_list? CLOSE_PARENTHESIS typ? SEMICOLON;
+param_list: param_decl (COMMA param_decl)*;
+param_decl: IDENTIFIER (COMMA IDENTIFIER)* typ;
 
 
 // Operators
-multiply_operator: MULTIPLY | DIVIDE | REMAIN;
-add_operator: ADD | SUB;
-related_operator: COMPARE_STR | NOT_EQ | GREATER_OR_EQ | LESS_OR_EQ | GREATER | LESS;
+arith_high_operator: MULTIPLY | DIVIDE | REMAIN;
+arith_low_operator: ADD | SUB;
+relational_operator: COMPARE_STR | NOT_EQ | GREATER_OR_EQ | LESS_OR_EQ | GREATER | LESS;
+assign_operator: ASSIGNMENT_SIGN | SHORT_ADD | SHORT_SUB | SHORT_MULTIPLY | SHORT_DIVIDE | SHORT_REMAIN;
 
 
 // Comments
@@ -127,11 +174,6 @@ SUB: '-';
 MULTIPLY: '*';
 DIVIDE: '/';
 REMAIN: '%';
-SHORT_ADD: '+=';
-SHORT_SUB: '-=';
-SHORT_MULTIPLY: '*=';
-SHORT_DIVIDE: '/=';
-SHORT_REMAIN: '%=';
 
 // Relational
 COMPARE_STR: '==';
@@ -146,8 +188,15 @@ AND: '&&';
 OR: '||';
 NOT: '!';
 
+// Assignment
+ASSIGNMENT_SIGN: ':=';
+SHORT_ADD: '+=';
+SHORT_SUB: '-=';
+SHORT_MULTIPLY: '*=';
+SHORT_DIVIDE: '/=';
+SHORT_REMAIN: '%=';
+
 // Other
-DECL: ':=';
 EQUAL: '=';
 DOT: '.';
 
