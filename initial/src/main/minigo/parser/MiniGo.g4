@@ -7,19 +7,15 @@ from lexererr import *
 }
 
 @lexer::members {
-def emit(self):
-    tk = self.type
-    if tk == self.UNCLOSE_STRING:       
-        result = super().emit();
-        raise UncloseString(result.text[1:].replace("\r","").replace("\n",""));
-    elif tk == self.ILLEGAL_ESCAPE:
-        result = super().emit();
-        raise IllegalEscape(result.text[1:]);
-    elif tk == self.ERROR_CHAR:
-        result = super().emit();
-        raise ErrorToken(result.text); 
-    else:
-        return super().emit();
+    # Initialize the lastToken Variable
+    self.lastToken = None
+
+    def emit(self):
+        # Get the next token from the base class.
+        token = super().emit()
+        if token.type not in (self.WHITESPACE, self.NEWLINE):
+            self.lastToken = token
+        return token        
 }
 
 options{
@@ -29,7 +25,6 @@ options{
 program  : (stmt | decl)+ EOF ;
 
 decl: var_decl | const_decl
-    | array_decl
     | struct_decl | interface_decl
     | func_decl | method_decl ;
 
@@ -42,7 +37,7 @@ stmt: var_decl | const_decl
     | call_stmt | return_stmt 
     | comment ;
 // Block
-block: OPEN_BRACE statement+ CLOSE_BRACE
+block: OPEN_BRACE stmt+ CLOSE_BRACE;
 
 // Variable, Constant declaration Statement
 var_decl: VAR IDENTIFIER (typ | EQUAL expr | typ EQUAL expr) SEMICOLON;
@@ -115,7 +110,7 @@ sub_expr: OPEN_PARENTHESIS expr CLOSE_PARENTHESIS;
 
 // Operand
 operand: INTEGER_LITERAL
-        | FLOATING_POINT_LITERAL
+        | FLOAT_LITERAL
         | STRING_LITERAL
         | BOOLEAN_LITERAL
         | array_literal
@@ -253,7 +248,7 @@ OCTAL_INT: '0' [oO] [0-7]+;
 HEXA_INT: '0' [xX] [0-9a-fA-F]+;
 
 // Floating-point Literals
-FLOATING_POINT_LITERAL: INT_PART '.' DECI_PART? EXP_PART?;
+FLOAT_LITERAL: INT_PART '.' DECI_PART? EXP_PART?;
 fragment INT_PART: [0-9]+;
 fragment DECI_PART: [0-9]*;
 fragment EXP_PART: [eE] [+-]? [0-9]+;
@@ -272,7 +267,18 @@ BOOLEAN_LITERAL: 'true' | 'false';
 NIL_LITERAL: 'nil';
 
 
-NEWLINE: ('\r\n' | '\n') {self.text = '\n'};
+NEWLINE: ('\r\n' | '\n')
+         {
+            self.text = "\n";
+            if self.lastToken is not None and self.lastToken.type in {self.ID, self.INTEGER_LITERAL,
+            self.FLOAT_LITERAL, self.BOOLEAN_LITERAL, self.STRING_LITERAL,
+            self.INT, self.FLOAT, self.BOOLEAN, self.STRING,
+            self.RETURN, self.CONTINUE, self.BREAK,
+            self.CLOSE_PARENTHESIS, self.CLOSE_BRACKET, self.CLOSE_BRACE}:
+                self.type = self.SEMICOLON;
+            else:
+                self.skip()
+         };
 
 // Identifiers
 IDENTIFIER: [A-Za-z_] [A-Za-z_0-9]*;
@@ -281,6 +287,6 @@ IDENTIFIER: [A-Za-z_] [A-Za-z_0-9]*;
 WHITESPACE: [ \t\f\r] -> skip;
 
 
-ILLEGAL_ESCAPE: DOUBLE_QUOTE INSIDE_STRING* BACKLASH ~[ntr\\];
-UNCLOSE_STRING: DOUBLE_QUOTE INSIDE_STRING* ([\r\n] | EOF);
-ERROR_CHAR: .;
+ILLEGAL_ESCAPE: DOUBLE_QUOTE INSIDE_STRING* BACKLASH ~[ntr\\] {raise IllegalEscape(self.text[1:])};
+UNCLOSE_STRING: DOUBLE_QUOTE INSIDE_STRING* ([\r\n] | EOF) {raise UncloseString(self.text[1:].replace("\r", "").replace("\n", ""))};
+ERROR_CHAR: . {raise ErrorToken(self.text)};
