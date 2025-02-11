@@ -7,23 +7,32 @@ from lexererr import *
 }
 
 @lexer::members {
-    # Initialize the lastToken Variable
-    self.lastToken = None
+def __init__(self, input:InputStream):
+    super().__init__(input)
+    self.checkVersion("4.9.2")
+    self._interp = LexerATNSimulator(self, self.atn, self.decisionsToDFA, PredictionContextCache())
+    self._actions = None
+    self._predicates = None
+    self.preType = None
 
-    def emit(self):
-        # Get the next token from the base class.
-        token = super().emit()
-        print(f"Emitting {token.type}: {token.text}")
-        if token.type not in (self.WHITESPACE, self.NEWLINE):
-            self.lastToken = token
-        return token        
+def emit(self):
+    tk = self.type
+    result = super().emit()
+    self.preType = tk
+    if tk == self.UNCLOSE_STRING:
+        raise UncloseString(result.text)
+    elif tk == self.ILLEGAL_ESCAPE:
+        raise IllegalEscape(result.text)
+    elif tk == self.ERROR_CHAR:
+        raise ErrorToken(result.text)
+    return result
 }
 
 options{
-	language=Python3;
+	language = Python3;
 }
 
-program  : (stmt | decl)+ EOF ;
+program  : decl+ EOF ;
 
 decl: var_decl | const_decl
     | struct_decl | interface_decl
@@ -114,6 +123,7 @@ operand: INTEGER_LITERAL
         | FLOAT_LITERAL
         | STRING_LITERAL
         | BOOLEAN_LITERAL
+        | NIL_LITERAL
         | array_literal
         | struct_literal
         | array_access
@@ -169,10 +179,11 @@ assign_operator: ASSIGNMENT_SIGN | SHORT_ADD | SHORT_SUB | SHORT_MULTIPLY | SHOR
 
 
 // Comments
-comment: SINGLE_LINE_COMMENT;
+comment: SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT;
 // Single-line Comments
 SINGLE_LINE_COMMENT: '//' (~[\r\n])* -> skip;
 // Multi-line Comments
+MULTI_LINE_COMMENT: '/*' (MULTI_LINE_COMMENT|.)*? '*/' -> skip;
 
 
 // Keywords
@@ -268,6 +279,20 @@ BOOLEAN_LITERAL: 'true' | 'false';
 NIL_LITERAL: 'nil';
 
 
+NEWLINE: ('\r\n' | '\n')
+         {
+            if self.preType in {self.IDENTIFIER, self.INTEGER_LITERAL,
+            self.FLOAT_LITERAL, self.BOOLEAN_LITERAL, self.STRING_LITERAL,
+            self.INT, self.FLOAT, self.BOOLEAN, self.STRING,
+            self.RETURN, self.CONTINUE, self.BREAK,
+            self.CLOSE_PARENTHESIS, self.CLOSE_BRACKET, self.CLOSE_BRACE}:
+                self.text = ";"
+                self.type = self.SEMICOLON
+            else:
+                self.skip()
+         };
+
+
 // Whitespace
 WHITESPACE: [ \t\f\r] -> skip;
 
@@ -275,21 +300,6 @@ WHITESPACE: [ \t\f\r] -> skip;
 IDENTIFIER: [A-Za-z_] [A-Za-z_0-9]*;
 
 
-NEWLINE: ('\r\n' | '\n')
-         {
-            self.text = "\n";
-            print("Encountered NEWLINE; lastToken is:", self.lastToken)
-            if self.lastToken is not None and self.lastToken.type in {self.ID, self.INTEGER_LITERAL,
-            self.FLOAT_LITERAL, self.BOOLEAN_LITERAL, self.STRING_LITERAL,
-            self.INT, self.FLOAT, self.BOOLEAN, self.STRING,
-            self.RETURN, self.CONTINUE, self.BREAK,
-            self.CLOSE_PARENTHESIS, self.CLOSE_BRACKET, self.CLOSE_BRACE}:
-                self.text = ";"
-            else:
-                self.skip()
-         };
-
-
-ILLEGAL_ESCAPE: DOUBLE_QUOTE INSIDE_STRING* BACKLASH ~[ntr\\] {raise IllegalEscape(self.text)};
-UNCLOSE_STRING: DOUBLE_QUOTE INSIDE_STRING* ([\r\n] | EOF) {raise UncloseString(self.text.replace("\r", "").replace("\n", ""))};
-ERROR_CHAR: . {raise ErrorToken(self.text)};
+ILLEGAL_ESCAPE: DOUBLE_QUOTE INSIDE_STRING* BACKLASH ~[ntr\\];// {raise IllegalEscape(self.text)};
+UNCLOSE_STRING: DOUBLE_QUOTE INSIDE_STRING* ([\r\n] | EOF);// {raise UncloseString(self.text)};
+ERROR_CHAR: .;// {raise ErrorToken(self.text)};
