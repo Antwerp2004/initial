@@ -1,1 +1,1 @@
-Illegal escape in string: oshi' no\k
+Illegal escape in string: "oishi' no\k

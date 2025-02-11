@@ -1,1 +1,1 @@
-x > "y" < z >= (t <= u) and v not w
+x > "y" < z >= (t <= u) && v ! w

@@ -1,1 +1,1 @@
-Illegal escape in string: kaiju'no\'
+Illegal escape in string: "kanji'lang\'

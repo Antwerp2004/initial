@@ -1,1 +1,1 @@
-Unclosed string: Dark^Gathering 
+Unclosed string: "Fair^Gathering 

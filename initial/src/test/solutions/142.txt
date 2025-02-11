@@ -1,1 +1,1 @@
-24,*,9,+,1,and,true,%,int,<EOF>
+24,*,7,+,1,&&,true,%,int,<EOF>

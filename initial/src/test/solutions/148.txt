@@ -1,1 +1,1 @@
-arr,=,arr,[,0,],[,1,],+,foo,(,x,,,const,*,7,),<EOF>
+arr,=,arr,[,0,],[,1,],+,time,(,x,,,const,*,9,),<EOF>

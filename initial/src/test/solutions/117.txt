@@ -1,1 +1,1 @@
-func main() return 1,<EOF>
+func main() return 0,<EOF>

@@ -1,1 +1,1 @@
-Illegal escape in string: spy\'
+Illegal escape in string: "akirA\'

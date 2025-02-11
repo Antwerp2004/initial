@@ -1,1 +1,1 @@
-main ... "func" == main_func
+main ... "method" == main_method

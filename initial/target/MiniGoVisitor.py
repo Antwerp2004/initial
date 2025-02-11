@@ -224,6 +224,11 @@ class MiniGoVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by MiniGoParser#array_ele.
+    def visitArray_ele(self, ctx:MiniGoParser.Array_eleContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by MiniGoParser#array_access.
     def visitArray_access(self, ctx:MiniGoParser.Array_accessContext):
         return self.visitChildren(ctx)

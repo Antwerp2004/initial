@@ -51,8 +51,8 @@ def serializedATN():
         buf.write("\3<\6<\u0193\n<\r<\16<\u0194\3<\3<\5<\u0199\n<\3<\3<\3")
         buf.write("=\3=\5=\u019f\n=\3>\3>\3?\3?\3@\3@\3@\3@\3@\3@\3@\3@\3")
         buf.write("@\5@\u01ae\n@\3A\3A\3A\3A\3A\3A\3A\3A\3A\5A\u01b9\nA\3")
-        buf.write("B\3B\3B\3B\3C\3C\3C\5C\u01c2\nC\3C\3C\3D\3D\7D\u01c8\n")
-        buf.write("D\fD\16D\u01cb\13D\3E\3E\3E\3E\3F\3F\7F\u01d3\nF\fF\16")
+        buf.write("B\3B\3B\3B\3C\3C\3C\3C\3D\3D\7D\u01c5\nD\fD\16D\u01c8")
+        buf.write("\13D\3E\3E\3E\5E\u01cd\nE\3E\3E\3F\3F\7F\u01d3\nF\fF\16")
         buf.write("F\u01d6\13F\3F\3F\3F\3F\3G\3G\7G\u01de\nG\fG\16G\u01e1")
         buf.write("\13G\3G\5G\u01e4\nG\3G\3G\3H\3H\3H\2\2I\3\3\5\4\7\5\t")
         buf.write("\6\13\7\r\b\17\t\21\n\23\13\25\f\27\r\31\16\33\17\35\20")
@@ -62,8 +62,8 @@ def serializedATN():
         buf.write("\2\u0081;\u0083<\u0085=\u0087>\u0089?\u008b@\u008dA\u008f")
         buf.write("B\3\2\25\4\2\f\f\17\17\3\2\63;\3\2\62;\4\2DDdd\3\2\62")
         buf.write("\63\4\2QQqq\3\2\629\4\2ZZzz\5\2\62;CHch\4\2GGgg\4\2--")
-        buf.write("//\6\2\f\f\17\17$$^^\3\2$$\5\2ppttvv\5\2C\\aac|\6\2\62")
-        buf.write(";C\\aac|\5\2\13\13\16\17\"\"\6\2^^ppttvv\4\3\f\f\17\17")
+        buf.write("//\6\2\f\f\17\17$$^^\3\2$$\5\2ppttvv\5\2\13\13\16\17\"")
+        buf.write("\"\5\2C\\aac|\6\2\62;C\\aac|\6\2^^ppttvv\4\3\f\f\17\17")
         buf.write("\2\u01fb\2\3\3\2\2\2\2\5\3\2\2\2\2\7\3\2\2\2\2\t\3\2\2")
         buf.write("\2\2\13\3\2\2\2\2\r\3\2\2\2\2\17\3\2\2\2\2\21\3\2\2\2")
         buf.write("\2\23\3\2\2\2\2\25\3\2\2\2\2\27\3\2\2\2\2\31\3\2\2\2\2")
@@ -97,7 +97,7 @@ def serializedATN():
         buf.write("\3\2\2\2o\u0171\3\2\2\2q\u017a\3\2\2\2s\u0181\3\2\2\2")
         buf.write("u\u0184\3\2\2\2w\u0198\3\2\2\2y\u019e\3\2\2\2{\u01a0\3")
         buf.write("\2\2\2}\u01a2\3\2\2\2\177\u01ad\3\2\2\2\u0081\u01b8\3")
-        buf.write("\2\2\2\u0083\u01ba\3\2\2\2\u0085\u01c1\3\2\2\2\u0087\u01c5")
+        buf.write("\2\2\2\u0083\u01ba\3\2\2\2\u0085\u01be\3\2\2\2\u0087\u01c2")
         buf.write("\3\2\2\2\u0089\u01cc\3\2\2\2\u008b\u01d0\3\2\2\2\u008d")
         buf.write("\u01db\3\2\2\2\u008f\u01e7\3\2\2\2\u0091\u0092\7\61\2")
         buf.write("\2\u0092\u0093\7\61\2\2\u0093\u0097\3\2\2\2\u0094\u0096")
@@ -209,14 +209,14 @@ def serializedATN():
         buf.write("\u01b6\7n\2\2\u01b6\u01b7\7u\2\2\u01b7\u01b9\7g\2\2\u01b8")
         buf.write("\u01af\3\2\2\2\u01b8\u01b3\3\2\2\2\u01b9\u0082\3\2\2\2")
         buf.write("\u01ba\u01bb\7p\2\2\u01bb\u01bc\7k\2\2\u01bc\u01bd\7n")
-        buf.write("\2\2\u01bd\u0084\3\2\2\2\u01be\u01bf\7\17\2\2\u01bf\u01c2")
-        buf.write("\7\f\2\2\u01c0\u01c2\7\f\2\2\u01c1\u01be\3\2\2\2\u01c1")
-        buf.write("\u01c0\3\2\2\2\u01c2\u01c3\3\2\2\2\u01c3\u01c4\bC\4\2")
-        buf.write("\u01c4\u0086\3\2\2\2\u01c5\u01c9\t\20\2\2\u01c6\u01c8")
-        buf.write("\t\21\2\2\u01c7\u01c6\3\2\2\2\u01c8\u01cb\3\2\2\2\u01c9")
-        buf.write("\u01c7\3\2\2\2\u01c9\u01ca\3\2\2\2\u01ca\u0088\3\2\2\2")
-        buf.write("\u01cb\u01c9\3\2\2\2\u01cc\u01cd\t\22\2\2\u01cd\u01ce")
-        buf.write("\3\2\2\2\u01ce\u01cf\bE\2\2\u01cf\u008a\3\2\2\2\u01d0")
+        buf.write("\2\2\u01bd\u0084\3\2\2\2\u01be\u01bf\t\20\2\2\u01bf\u01c0")
+        buf.write("\3\2\2\2\u01c0\u01c1\bC\2\2\u01c1\u0086\3\2\2\2\u01c2")
+        buf.write("\u01c6\t\21\2\2\u01c3\u01c5\t\22\2\2\u01c4\u01c3\3\2\2")
+        buf.write("\2\u01c5\u01c8\3\2\2\2\u01c6\u01c4\3\2\2\2\u01c6\u01c7")
+        buf.write("\3\2\2\2\u01c7\u0088\3\2\2\2\u01c8\u01c6\3\2\2\2\u01c9")
+        buf.write("\u01ca\7\17\2\2\u01ca\u01cd\7\f\2\2\u01cb\u01cd\7\f\2")
+        buf.write("\2\u01cc\u01c9\3\2\2\2\u01cc\u01cb\3\2\2\2\u01cd\u01ce")
+        buf.write("\3\2\2\2\u01ce\u01cf\bE\4\2\u01cf\u008a\3\2\2\2\u01d0")
         buf.write("\u01d4\5{>\2\u01d1\u01d3\5y=\2\u01d2\u01d1\3\2\2\2\u01d3")
         buf.write("\u01d6\3\2\2\2\u01d4\u01d2\3\2\2\2\u01d4\u01d5\3\2\2\2")
         buf.write("\u01d5\u01d7\3\2\2\2\u01d6\u01d4\3\2\2\2\u01d7\u01d8\5")
@@ -229,7 +229,7 @@ def serializedATN():
         buf.write("\u01e8\13\2\2\2\u01e8\u01e9\bH\7\2\u01e9\u0090\3\2\2\2")
         buf.write("\32\2\u0097\u0150\u0157\u015a\u0161\u0168\u016f\u0174")
         buf.write("\u0177\u017c\u0181\u0186\u018b\u0194\u0198\u019e\u01ad")
-        buf.write("\u01b8\u01c1\u01c9\u01d4\u01df\u01e3\b\b\2\2\3<\2\3C\3")
+        buf.write("\u01b8\u01c6\u01cc\u01d4\u01df\u01e3\b\b\2\2\3<\2\3E\3")
         buf.write("\3F\4\3G\5\3H\6")
         return buf.getvalue()
 
@@ -298,9 +298,9 @@ class MiniGoLexer(Lexer):
     STRING_LITERAL = 56
     BOOLEAN_LITERAL = 57
     NIL_LITERAL = 58
-    NEWLINE = 59
+    WHITESPACE = 59
     IDENTIFIER = 60
-    WHITESPACE = 61
+    NEWLINE = 61
     ILLEGAL_ESCAPE = 62
     UNCLOSE_STRING = 63
     ERROR_CHAR = 64
@@ -329,8 +329,8 @@ class MiniGoLexer(Lexer):
             "OPEN_BRACKET", "CLOSE_BRACKET", "OPEN_BRACE", "CLOSE_BRACE", 
             "COMMA", "SEMICOLON", "COLON", "INTEGER_LITERAL", "DECIMAL_INT", 
             "BINARY_INT", "OCTAL_INT", "HEXA_INT", "FLOAT_LITERAL", "STRING_LITERAL", 
-            "BOOLEAN_LITERAL", "NIL_LITERAL", "NEWLINE", "IDENTIFIER", "WHITESPACE", 
-            "ILLEGAL_ESCAPE", "UNCLOSE_STRING", "ERROR_CHAR" ]
+            "BOOLEAN_LITERAL", "NIL_LITERAL", "WHITESPACE", "IDENTIFIER", 
+            "NEWLINE", "ILLEGAL_ESCAPE", "UNCLOSE_STRING", "ERROR_CHAR" ]
 
     ruleNames = [ "SINGLE_LINE_COMMENT", "IF", "ELSE", "FOR", "RETURN", 
                   "FUNC", "TYPE", "STRUCT", "INTERFACE", "STRING", "INT", 
@@ -345,8 +345,8 @@ class MiniGoLexer(Lexer):
                   "BINARY_INT", "OCTAL_INT", "HEXA_INT", "FLOAT_LITERAL", 
                   "INT_PART", "DECI_PART", "EXP_PART", "STRING_LITERAL", 
                   "INSIDE_STRING", "DOUBLE_QUOTE", "BACKLASH", "ESCAPE_SEQUENCE", 
-                  "BOOLEAN_LITERAL", "NIL_LITERAL", "NEWLINE", "IDENTIFIER", 
-                  "WHITESPACE", "ILLEGAL_ESCAPE", "UNCLOSE_STRING", "ERROR_CHAR" ]
+                  "BOOLEAN_LITERAL", "NIL_LITERAL", "WHITESPACE", "IDENTIFIER", 
+                  "NEWLINE", "ILLEGAL_ESCAPE", "UNCLOSE_STRING", "ERROR_CHAR" ]
 
     grammarFileName = "MiniGo.g4"
 
@@ -364,6 +364,7 @@ class MiniGoLexer(Lexer):
         def emit(self):
             # Get the next token from the base class.
             token = super().emit()
+            print(f"Emitting {token.type}: {token.text}")
             if token.type not in (self.WHITESPACE, self.NEWLINE):
                 self.lastToken = token
             return token        
@@ -373,7 +374,7 @@ class MiniGoLexer(Lexer):
         if self._actions is None:
             actions = dict()
             actions[58] = self.STRING_LITERAL_action 
-            actions[65] = self.NEWLINE_action 
+            actions[67] = self.NEWLINE_action 
             actions[68] = self.ILLEGAL_ESCAPE_action 
             actions[69] = self.UNCLOSE_STRING_action 
             actions[70] = self.ERROR_CHAR_action 
@@ -394,12 +395,13 @@ class MiniGoLexer(Lexer):
         if actionIndex == 1:
 
                         self.text = "\n";
+                        print("Encountered NEWLINE; lastToken is:", self.lastToken)
                         if self.lastToken is not None and self.lastToken.type in {self.ID, self.INTEGER_LITERAL,
                         self.FLOAT_LITERAL, self.BOOLEAN_LITERAL, self.STRING_LITERAL,
                         self.INT, self.FLOAT, self.BOOLEAN, self.STRING,
                         self.RETURN, self.CONTINUE, self.BREAK,
                         self.CLOSE_PARENTHESIS, self.CLOSE_BRACKET, self.CLOSE_BRACE}:
-                            self.type = self.SEMICOLON;
+                            self.text = ";"
                         else:
                             self.skip()
                      
@@ -407,12 +409,12 @@ class MiniGoLexer(Lexer):
 
     def ILLEGAL_ESCAPE_action(self, localctx:RuleContext , actionIndex:int):
         if actionIndex == 2:
-            raise IllegalEscape(self.text[1:])
+            raise IllegalEscape(self.text)
      
 
     def UNCLOSE_STRING_action(self, localctx:RuleContext , actionIndex:int):
         if actionIndex == 3:
-            raise UncloseString(self.text[1:].replace("\r", "").replace("\n", ""))
+            raise UncloseString(self.text.replace("\r", "").replace("\n", ""))
      
 
     def ERROR_CHAR_action(self, localctx:RuleContext , actionIndex:int):

@@ -13,6 +13,7 @@ from lexererr import *
     def emit(self):
         # Get the next token from the base class.
         token = super().emit()
+        print(f"Emitting {token.type}: {token.text}")
         if token.type not in (self.WHITESPACE, self.NEWLINE):
             self.lastToken = token
         return token        
@@ -132,8 +133,9 @@ array_size_box: OPEN_BRACKET expr CLOSE_BRACKET;
 
 // Array Literal
 array_literal: array_type OPEN_BRACE array_ele_list* CLOSE_BRACE;
-array_ele_list: expr (COMMA expr)*
+array_ele_list: array_ele (COMMA array_ele)*
             | OPEN_BRACE array_ele_list CLOSE_BRACE;
+array_ele: INTEGER_LITERAL | FLOAT_LITERAL | BOOLEAN_LITERAL | STRING_LITERAL | IDENTIFIER;
 // Array access
 array_access: array_access array_size_box | IDENTIFIER array_size_box;
 
@@ -262,31 +264,32 @@ fragment ESCAPE_SEQUENCE: (BACKLASH [ntr]) | (BACKLASH DOUBLE_QUOTE) | (BACKLASH
 
 // Boolean Literals
 BOOLEAN_LITERAL: 'true' | 'false';
-
 // Nil Literal
 NIL_LITERAL: 'nil';
+
+
+// Whitespace
+WHITESPACE: [ \t\f\r] -> skip;
+
+// Identifiers
+IDENTIFIER: [A-Za-z_] [A-Za-z_0-9]*;
 
 
 NEWLINE: ('\r\n' | '\n')
          {
             self.text = "\n";
+            print("Encountered NEWLINE; lastToken is:", self.lastToken)
             if self.lastToken is not None and self.lastToken.type in {self.ID, self.INTEGER_LITERAL,
             self.FLOAT_LITERAL, self.BOOLEAN_LITERAL, self.STRING_LITERAL,
             self.INT, self.FLOAT, self.BOOLEAN, self.STRING,
             self.RETURN, self.CONTINUE, self.BREAK,
             self.CLOSE_PARENTHESIS, self.CLOSE_BRACKET, self.CLOSE_BRACE}:
-                self.type = self.SEMICOLON;
+                self.text = ";"
             else:
                 self.skip()
          };
 
-// Identifiers
-IDENTIFIER: [A-Za-z_] [A-Za-z_0-9]*;
 
-// Whitespace
-WHITESPACE: [ \t\f\r] -> skip;
-
-
-ILLEGAL_ESCAPE: DOUBLE_QUOTE INSIDE_STRING* BACKLASH ~[ntr\\] {raise IllegalEscape(self.text[1:])};
-UNCLOSE_STRING: DOUBLE_QUOTE INSIDE_STRING* ([\r\n] | EOF) {raise UncloseString(self.text[1:].replace("\r", "").replace("\n", ""))};
+ILLEGAL_ESCAPE: DOUBLE_QUOTE INSIDE_STRING* BACKLASH ~[ntr\\] {raise IllegalEscape(self.text)};
+UNCLOSE_STRING: DOUBLE_QUOTE INSIDE_STRING* ([\r\n] | EOF) {raise UncloseString(self.text.replace("\r", "").replace("\n", ""))};
 ERROR_CHAR: . {raise ErrorToken(self.text)};
