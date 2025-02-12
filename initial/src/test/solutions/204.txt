@@ -1,1 +1,1 @@
-var,int,;,<EOF>
+Error on line 3 col 18: 5.6

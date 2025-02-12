@@ -19,12 +19,6 @@ def emit(self):
     tk = self.type
     result = super().emit()
     self.preType = tk
-    if tk == self.UNCLOSE_STRING:
-        raise UncloseString(result.text)
-    elif tk == self.ILLEGAL_ESCAPE:
-        raise IllegalEscape(result.text)
-    elif tk == self.ERROR_CHAR:
-        raise ErrorToken(result.text)
     return result
 }
 
@@ -50,12 +44,13 @@ stmt: var_decl | const_decl
 block: OPEN_BRACE stmt+ CLOSE_BRACE;
 
 // Variable, Constant declaration Statement
-var_decl: VAR IDENTIFIER (typ | EQUAL expr | typ EQUAL expr) SEMICOLON;
+var_decl: VAR IDENTIFIER (decl_typ | EQUAL expr | decl_typ EQUAL expr) SEMICOLON;
 const_decl: CONST IDENTIFIER ASSIGNMENT_SIGN expr SEMICOLON;
+decl_typ: primitive_type | IDENTIFIER | array_decl_type;
 
 // Assignment Statement
 assign_stmt: lhs assign_operator expr SEMICOLON;
-lhs: IDENTIFIER | array_access | struct_access;
+lhs: IDENTIFIER | struct_array_access;
 
 // If Statement
 if_stmt: only_if_stmt else_if_list else_stmt? SEMICOLON;
@@ -70,7 +65,8 @@ basic_for_loop: FOR condition block SEMICOLON;
 condition: expr;
 // For Loop with Initialization, Condition, and Update
 for_loop_initial: FOR initialization condition SEMICOLON update block SEMICOLON;
-initialization: IDENTIFIER assign_operator expr SEMICOLON | var_decl;
+initialization: IDENTIFIER assign_operator expr SEMICOLON 
+              | VAR IDENTIFIER (EQUAL expr | decl_typ EQUAL expr) SEMICOLON;
 update: IDENTIFIER assign_operator expr;
 // For Loop with Range
 for_loop_range: FOR IDENTIFIER COMMA IDENTIFIER ASSIGNMENT_SIGN RANGE IDENTIFIER block SEMICOLON;
@@ -97,9 +93,9 @@ argument_list: expr (COMMA expr)*;
 // Method
 // Method declaration
 method_decl: FUNC OPEN_PARENTHESIS IDENTIFIER IDENTIFIER CLOSE_PARENTHESIS 
-        IDENTIFIER OPEN_PARENTHESIS param_list? CLOSE_PARENTHESIS typ? OPEN_BRACE block CLOSE_BRACE SEMICOLON;
+        IDENTIFIER OPEN_PARENTHESIS param_list? CLOSE_PARENTHESIS typ? block SEMICOLON;
 // Method call
-method_call: IDENTIFIER DOT func_call;
+method_call: struct_array_access DOT func_call;
 
 
 // Type
@@ -126,8 +122,7 @@ operand: INTEGER_LITERAL
         | NIL_LITERAL
         | array_literal
         | struct_literal
-        | array_access
-        | struct_access
+        | struct_array_access
         | IDENTIFIER
         | func_call
         | method_call
@@ -135,32 +130,35 @@ operand: INTEGER_LITERAL
 
 
 // Array
-// Array declaration
-array_decl: VAR IDENTIFIER (OPEN_BRACKET (INTEGER_LITERAL | IDENTIFIER) CLOSE_BRACKET)+ (primitive_type | IDENTIFIER) SEMICOLON;
+// Array declaration type
+array_decl_type: array_decl_size_box array_decl_type | array_decl_size_box (primitive_type | IDENTIFIER | array_decl_type);
+array_decl_size_box: OPEN_BRACKET (INTEGER_LITERAL | IDENTIFIER) CLOSE_BRACKET;
 // Array type
-array_type: array_size_box array_type | array_size_box (primitive_type | IDENTIFIER);
+array_type: array_size_box array_type | array_size_box (primitive_type | IDENTIFIER | array_type);
 array_size_box: OPEN_BRACKET expr CLOSE_BRACKET;
 
 // Array Literal
-array_literal: array_type OPEN_BRACE array_ele_list* CLOSE_BRACE;
-array_ele_list: array_ele (COMMA array_ele)*
-            | OPEN_BRACE array_ele_list CLOSE_BRACE;
-array_ele: INTEGER_LITERAL | FLOAT_LITERAL | BOOLEAN_LITERAL | STRING_LITERAL | IDENTIFIER;
+array_literal: array_type OPEN_BRACE array_ele_list+ CLOSE_BRACE;
+array_ele_list: array_ele (COMMA array_ele)*;
+array_ele: INTEGER_LITERAL | FLOAT_LITERAL | BOOLEAN_LITERAL | STRING_LITERAL | IDENTIFIER
+        | short_array_literal;
+short_array_literal: OPEN_BRACE array_ele_list CLOSE_BRACE;
 // Array access
-array_access: array_access array_size_box | IDENTIFIER array_size_box;
+// array_access: array_access array_size_box | IDENTIFIER array_size_box;
 
 
 // Struct
 // Struct declaration
-struct_decl: TYPE IDENTIFIER STRUCT OPEN_BRACE field_list? CLOSE_BRACE SEMICOLON;
-field_list: IDENTIFIER (typ | array_type) SEMICOLON;
+struct_decl: TYPE IDENTIFIER STRUCT OPEN_BRACE struct_field+ CLOSE_BRACE SEMICOLON;
+struct_field: IDENTIFIER (typ | array_type) SEMICOLON;
 
 // Struct Literal
 struct_literal: IDENTIFIER OPEN_BRACE struct_ele_list? CLOSE_BRACE;
 struct_ele_list: struct_ele (COMMA struct_ele)*;
 struct_ele: IDENTIFIER COLON expr;
 // Struct access
-struct_access: struct_access DOT IDENTIFIER | IDENTIFIER DOT IDENTIFIER;
+// struct_access: struct_access DOT IDENTIFIER | IDENTIFIER DOT IDENTIFIER;
+struct_array_access: IDENTIFIER ((DOT IDENTIFIER) | array_size_box)+;
 
 
 // Interface
@@ -284,7 +282,7 @@ NEWLINE: ('\r\n' | '\n')
             if self.preType in {self.IDENTIFIER, self.INTEGER_LITERAL,
             self.FLOAT_LITERAL, self.BOOLEAN_LITERAL, self.STRING_LITERAL,
             self.INT, self.FLOAT, self.BOOLEAN, self.STRING,
-            self.RETURN, self.CONTINUE, self.BREAK,
+            self.RETURN, self.CONTINUE, self.BREAK, self.NIL_LITERAL,
             self.CLOSE_PARENTHESIS, self.CLOSE_BRACKET, self.CLOSE_BRACE}:
                 self.text = ";"
                 self.type = self.SEMICOLON
@@ -300,6 +298,6 @@ WHITESPACE: [ \t\f\r] -> skip;
 IDENTIFIER: [A-Za-z_] [A-Za-z_0-9]*;
 
 
-ILLEGAL_ESCAPE: DOUBLE_QUOTE INSIDE_STRING* BACKLASH ~[ntr\\];// {raise IllegalEscape(self.text)};
-UNCLOSE_STRING: DOUBLE_QUOTE INSIDE_STRING* ([\r\n] | EOF);// {raise UncloseString(self.text)};
-ERROR_CHAR: .;// {raise ErrorToken(self.text)};
+ILLEGAL_ESCAPE: DOUBLE_QUOTE INSIDE_STRING* BACKLASH ~[ntr\\] {raise IllegalEscape(self.text)};
+UNCLOSE_STRING: DOUBLE_QUOTE INSIDE_STRING* ([\r\n] | EOF) {raise UncloseString(self.text)};
+ERROR_CHAR: . {raise ErrorToken(self.text)};

@@ -1,0 +1,4 @@
+
+// Test case 15: Error: Missing brace
+func main()  }
+

@@ -39,6 +39,11 @@ class MiniGoVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by MiniGoParser#decl_typ.
+    def visitDecl_typ(self, ctx:MiniGoParser.Decl_typContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by MiniGoParser#assign_stmt.
     def visitAssign_stmt(self, ctx:MiniGoParser.Assign_stmtContext):
         return self.visitChildren(ctx)
@@ -199,8 +204,13 @@ class MiniGoVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by MiniGoParser#array_decl.
-    def visitArray_decl(self, ctx:MiniGoParser.Array_declContext):
+    # Visit a parse tree produced by MiniGoParser#array_decl_type.
+    def visitArray_decl_type(self, ctx:MiniGoParser.Array_decl_typeContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MiniGoParser#array_decl_size_box.
+    def visitArray_decl_size_box(self, ctx:MiniGoParser.Array_decl_size_boxContext):
         return self.visitChildren(ctx)
 
 
@@ -229,8 +239,8 @@ class MiniGoVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by MiniGoParser#array_access.
-    def visitArray_access(self, ctx:MiniGoParser.Array_accessContext):
+    # Visit a parse tree produced by MiniGoParser#short_array_literal.
+    def visitShort_array_literal(self, ctx:MiniGoParser.Short_array_literalContext):
         return self.visitChildren(ctx)
 
 
@@ -239,8 +249,8 @@ class MiniGoVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by MiniGoParser#field_list.
-    def visitField_list(self, ctx:MiniGoParser.Field_listContext):
+    # Visit a parse tree produced by MiniGoParser#struct_field.
+    def visitStruct_field(self, ctx:MiniGoParser.Struct_fieldContext):
         return self.visitChildren(ctx)
 
 
@@ -259,8 +269,8 @@ class MiniGoVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by MiniGoParser#struct_access.
-    def visitStruct_access(self, ctx:MiniGoParser.Struct_accessContext):
+    # Visit a parse tree produced by MiniGoParser#struct_array_access.
+    def visitStruct_array_access(self, ctx:MiniGoParser.Struct_array_accessContext):
         return self.visitChildren(ctx)
 
 

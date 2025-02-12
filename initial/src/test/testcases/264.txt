@@ -6,7 +6,7 @@ type Point struct {
 var p Point
 
 func main() {
-    p.x = 10
-    p.y = 20
+    p.x := 10
+    p.y := 20
     println(p.x, p.y)
 }

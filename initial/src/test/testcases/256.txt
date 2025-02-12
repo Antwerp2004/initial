@@ -1,9 +1,9 @@
 
-func min(int a, string b){  
+func min(a int, b string){  
 if (x <= false){
         main(a,2,"b")
     }
-for i; i <= x / 2; i += 1{ 
+for var i int; i <= x / 2; i += 1{ 
 
     loop1(arr[a(b)][b(a)])
     loop2(arr[a(b)],b[2])

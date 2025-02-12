@@ -3,8 +3,8 @@ type MyType struct {
 }
 
 func (mt MyType) someMethod() string {
-	for i := 0; i < 10; i++ {
-		if i == 5 {
+	for i := 0; i < 10; i+=1 {
+		if (i == 5) {
 			return "Found 5!"
 		}
 	}
@@ -13,6 +13,6 @@ func (mt MyType) someMethod() string {
 
 func main() {
 	mt := MyType{Name: "Example"}
-	result := mt.someMethod()
+	result := mt[y].x[z].someMethod()
 	println(result)
 }

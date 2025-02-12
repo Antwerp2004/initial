@@ -1,7 +1,7 @@
 var notAnArray int = 5;
 
 func main() {
-    for index, value := range notAnArray {
+    for index, value := notAnArray {
         println(index, value);
     }
 }

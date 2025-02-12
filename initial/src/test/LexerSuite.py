@@ -372,9 +372,9 @@ var x = 7 + (t - false)
     def test_lexer_55(self):
         inp = \
             """func bar( arr int,,){
-x[2][8] = [3][1,2,\"3\"] + [2][4,\"5\",6]
+x[2][8] := [3]{1,2,\"3\"} + [2]{4,\"5\",6}
 }"""
-        out = "func,bar,(,arr,int,,,,,),{,x,[,2,],[,8,],=,[,3,],[,1,,,2,,,3,],+,[,2,],[,4,,,5,,,6,],;,},<EOF>"
+        out = "func,bar,(,arr,int,,,,,),{,x,[,2,],[,8,],:=,[,3,],{,1,,,2,,,3,},+,[,2,],{,4,,,5,,,6,},;,},<EOF>"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 

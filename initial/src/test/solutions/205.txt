@@ -1,1 +1,1 @@
-var,i,;,<EOF>
+Error on line 14 col 2: <EOF>

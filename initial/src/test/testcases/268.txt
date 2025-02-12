@@ -7,7 +7,7 @@ func main() {
             println("Young professional")
         } else {
             println("Young student")
-        }
+        
     } else {
         println("Experienced")
     }

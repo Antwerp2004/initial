@@ -1,0 +1,12 @@
+
+// Test case 20: More complex if-else structure
+func main() {
+    var num int = 15;
+    if (num < 10) {
+        println("Less than 10");
+    } else if (num > 20) {
+        println("Greater than 20");
+    } else {
+        println("Between 10 and 20");
+    }
+}

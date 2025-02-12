@@ -1,7 +1,8 @@
 type MyInterface interface {
 	doSomething()
 }
-type MyType struct{}
+type MyType struct{x MyInterface
+}
 
 func (m MyType) doSomething() {
 	println("Hello")
@@ -10,7 +11,8 @@ func (m MyType) doSomething() {
 func main() {
 	var i MyInterface
 	var m MyType
-	i = m
+	i := m
+    y[6].x[6].doSomething()
 
 	//i.doSomething()// Calling method doSomething of MyInterface
 

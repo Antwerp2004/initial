@@ -1,1 +1,1 @@
-func,main,(,{,},;,<EOF>
+Error on line 7 col 19: {
