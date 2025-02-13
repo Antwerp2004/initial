@@ -1,8 +1,7 @@
-
-
-
-var numbers [3]int = int{1, "hello", 3} // "hello" is not an int. Error expected.
+var notAnArray int = 5;
 
 func main() {
-    println(numbers[0], numbers[1], numbers[2])
+    for index, value := notAnArray {
+        println(index, value);
+    }
 }

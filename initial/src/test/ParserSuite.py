@@ -1426,86 +1426,6 @@ func main() {
 
     def test_parser_92(self):
         inp = \
-            """func main() {
-    println(undefinedVariable) // Should cause error: undefinedVariable not declared
-}
-"""
-        out = "successful"
-        ParserSuite.parserTest += 1
-        self.assertTrue(TestParser.checkParser(inp, out, ParserSuite.parserTest))
-
-    def test_parser_93(self):
-        inp = \
-            """func add(x int, y int) {  // Missing return type
-    return x + y  // Type error
-}
-
-func main() {
-   var result int = add(5,3)
-   println(result)
-}
-"""
-        out = "successful"
-        ParserSuite.parserTest += 1
-        self.assertTrue(TestParser.checkParser(inp, out, ParserSuite.parserTest))
-
-    def test_parser_94(self):
-        inp = \
-            """
-var a bool = true
-var b bool = false
-var c bool = true
-
-func main() {
-    var result bool = (a && b) ||+ (!c && a)
-    println(result)
-}
-"""
-        out = "Error on line 7 col 34: +"
-        ParserSuite.parserTest += 1
-        self.assertTrue(TestParser.checkParser(inp, out, ParserSuite.parserTest))
-
-    def test_parser_95(self):
-        inp = \
-            """
-
-
-var numbers [3]int = int{1, "hello", 3} // "hello" is not an int. Error expected.
-
-func main() {
-    println(numbers[0], numbers[1], numbers[2])
-}
-"""
-        out = "Error on line 4 col 22: int"
-        ParserSuite.parserTest += 1
-        self.assertTrue(TestParser.checkParser(inp, out, ParserSuite.parserTest))
-
-    def test_parser_96(self):
-        inp = \
-            """var notAnArray int = 5;
-
-func main() {
-    for index, value := notAnArray {
-        println(index, value);
-    }
-}
-"""
-        out = "Error on line 4 col 25: notAnArray"
-        ParserSuite.parserTest += 1
-        self.assertTrue(TestParser.checkParser(inp, out, ParserSuite.parserTest))
-
-    def test_parser_97(self):
-        inp = \
-            """func someOtherFunction() {
-    println(x = 5)
-}
-"""
-        out = "Error on line 2 col 15: ="
-        ParserSuite.parserTest += 1
-        self.assertTrue(TestParser.checkParser(inp, out, ParserSuite.parserTest))
-
-    def test_parser_98(self):
-        inp = \
             """type MyInterface interface {
 	doSomething()
 }
@@ -1521,6 +1441,7 @@ func main() {
 	var m MyType
 	i := m
     y[6].x[6].doSomething()
+    Arr[i + 1] := 10
 
 	//i.doSomething()// Calling method doSomething of MyInterface
 
@@ -1530,7 +1451,83 @@ func main() {
         ParserSuite.parserTest += 1
         self.assertTrue(TestParser.checkParser(inp, out, ParserSuite.parserTest))
 
-    def test_parser_99(self):
+    def test_parser_93(self):
+        inp = \
+            """
+var a bool = true
+var b bool = false
+var c bool = true
+
+func main() {
+    var result bool = (a && b) ||+ (!c && a)
+    println(result)
+}
+"""
+        out = "Error on line 7 col 34: +"
+        ParserSuite.parserTest += 1
+        self.assertTrue(TestParser.checkParser(inp, out, ParserSuite.parserTest))
+
+    def test_parser_94(self):
+        inp = \
+            """
+
+
+var numbers [3]int = int{1, "hello", 3} // "hello" is not an int. Error expected.
+
+func main() {
+    println(numbers[0], numbers[1], numbers[2])
+}
+"""
+        out = "Error on line 4 col 22: int"
+        ParserSuite.parserTest += 1
+        self.assertTrue(TestParser.checkParser(inp, out, ParserSuite.parserTest))
+
+    def test_parser_95(self):
+        inp = \
+            """var notAnArray int = 5;
+
+func main() {
+    for index, value := notAnArray {
+        println(index, value);
+    }
+}
+"""
+        out = "Error on line 4 col 25: notAnArray"
+        ParserSuite.parserTest += 1
+        self.assertTrue(TestParser.checkParser(inp, out, ParserSuite.parserTest))
+
+    def test_parser_96(self):
+        inp = \
+            """func someOtherFunction() {
+    println(x = 5)
+}
+"""
+        out = "Error on line 2 col 15: ="
+        ParserSuite.parserTest += 1
+        self.assertTrue(TestParser.checkParser(inp, out, ParserSuite.parserTest))
+
+    def test_parser_97(self):
+        inp = \
+            """
+        type Circle struct {
+            radius float;
+            center Point;
+        }
+        func (c Circle) area() float {
+            return 3.14 * c.radius * c.radius;
+        }
+        func main() {
+            circles := [3]Circle{
+                Circle{radius: 1.0, center: Point{x: 0, y: 0}},
+                Circle{radius: 2.0, center: Point{x: 1, y: 1}},
+                Circle{radius: 3.0, center: Point{x: 2, y: 2}}
+            };
+        }"""
+        out = "Error on line 13 col 63: ;"
+        ParserSuite.parserTest += 1
+        self.assertTrue(TestParser.checkParser(inp, out, ParserSuite.parserTest))
+
+    def test_parser_98(self):
         inp = \
             """type MyType struct {
 	Name string
@@ -1547,10 +1544,19 @@ func (mt MyType) someMethod() string {
 
 func main() {
 	mt := MyType{Name: "Example"}
-	result := mt[y].x[z].someMethod()
+	result := mt[y].f(z).someMethod()
 	println(result)
 }
 """
-        out = "successful"
+        out = "Error on line 16 col 22: ."
+        ParserSuite.parserTest += 1
+        self.assertTrue(TestParser.checkParser(inp, out, ParserSuite.parserTest))
+
+    def test_parser_99(self):
+        inp = \
+            """
+        const a = true.x;
+"""
+        out = "Error on line 2 col 23: ."
         ParserSuite.parserTest += 1
         self.assertTrue(TestParser.checkParser(inp, out, ParserSuite.parserTest))

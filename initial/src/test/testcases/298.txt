@@ -1,19 +1,18 @@
-type MyInterface interface {
-	doSomething()
-}
-type MyType struct{x MyInterface
+type MyType struct {
+	Name string
 }
 
-func (m MyType) doSomething() {
-	println("Hello")
+func (mt MyType) someMethod() string {
+	for i := 0; i < 10; i+=1 {
+		if (i == 5) {
+			return "Found 5!"
+		}
+	}
+	return "Not found"
 }
 
 func main() {
-	var i MyInterface
-	var m MyType
-	i := m
-    y[6].x[6].doSomething()
-
-	//i.doSomething()// Calling method doSomething of MyInterface
-
+	mt := MyType{Name: "Example"}
+	result := mt[y].f(z).someMethod()
+	println(result)
 }

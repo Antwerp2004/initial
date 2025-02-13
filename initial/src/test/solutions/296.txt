@@ -1,1 +1,1 @@
-Error on line 4 col 25: notAnArray
+Error on line 2 col 15: =

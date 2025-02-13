@@ -1,9 +1,8 @@
 
-var a bool = true
-var b bool = false
-var c bool = true
+
+
+var numbers [3]int = int{1, "hello", 3} // "hello" is not an int. Error expected.
 
 func main() {
-    var result bool = (a && b) ||+ (!c && a)
-    println(result)
+    println(numbers[0], numbers[1], numbers[2])
 }

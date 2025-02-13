@@ -45,7 +45,7 @@ block: OPEN_BRACE stmt+ CLOSE_BRACE;
 
 // Variable, Constant declaration Statement
 var_decl: VAR IDENTIFIER (decl_typ | EQUAL expr | decl_typ EQUAL expr) SEMICOLON;
-const_decl: CONST IDENTIFIER ASSIGNMENT_SIGN expr SEMICOLON;
+const_decl: CONST IDENTIFIER EQUAL expr SEMICOLON;
 decl_typ: primitive_type | IDENTIFIER | array_decl_type;
 
 // Assignment Statement
@@ -141,7 +141,7 @@ array_size_box: OPEN_BRACKET expr CLOSE_BRACKET;
 array_literal: array_type OPEN_BRACE array_ele_list+ CLOSE_BRACE;
 array_ele_list: array_ele (COMMA array_ele)*;
 array_ele: INTEGER_LITERAL | FLOAT_LITERAL | BOOLEAN_LITERAL | STRING_LITERAL | IDENTIFIER
-        | short_array_literal;
+        | struct_literal | short_array_literal;
 short_array_literal: OPEN_BRACE array_ele_list CLOSE_BRACE;
 // Array access
 // array_access: array_access array_size_box | IDENTIFIER array_size_box;
@@ -150,7 +150,7 @@ short_array_literal: OPEN_BRACE array_ele_list CLOSE_BRACE;
 // Struct
 // Struct declaration
 struct_decl: TYPE IDENTIFIER STRUCT OPEN_BRACE struct_field+ CLOSE_BRACE SEMICOLON;
-struct_field: IDENTIFIER (typ | array_type) SEMICOLON;
+struct_field: IDENTIFIER typ SEMICOLON;
 
 // Struct Literal
 struct_literal: IDENTIFIER OPEN_BRACE struct_ele_list? CLOSE_BRACE;
@@ -202,6 +202,8 @@ VAR: 'var';
 CONTINUE: 'continue';
 BREAK: 'break';
 RANGE: 'range';
+// TRUE: 'true';
+// FALSE: 'false';
 
 
 // Operators
