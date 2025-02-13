@@ -1548,15 +1548,15 @@ func main() {
 	println(result)
 }
 """
-        out = "Error on line 16 col 22: ."
+        out = "successful"
         ParserSuite.parserTest += 1
         self.assertTrue(TestParser.checkParser(inp, out, ParserSuite.parserTest))
 
     def test_parser_99(self):
         inp = \
             """
-        const a = true.x;
+        const a = 2.x;
 """
-        out = "Error on line 2 col 23: ."
+        out = "Error on line 2 col 21: x"
         ParserSuite.parserTest += 1
         self.assertTrue(TestParser.checkParser(inp, out, ParserSuite.parserTest))

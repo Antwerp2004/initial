@@ -194,6 +194,11 @@ class MiniGoVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by MiniGoParser#expr6.
+    def visitExpr6(self, ctx:MiniGoParser.Expr6Context):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by MiniGoParser#sub_expr.
     def visitSub_expr(self, ctx:MiniGoParser.Sub_exprContext):
         return self.visitChildren(ctx)

@@ -109,7 +109,8 @@ expr1: expr1 AND expr2 | expr2;
 expr2: expr2 relational_operator expr3 | expr3;
 expr3: expr3 arith_low_operator expr4 | expr4;
 expr4: expr4 arith_high_operator expr5 | expr5;
-expr5: (NOT | SUB) expr5 | operand;
+expr5: (NOT | SUB) expr5 | expr6;
+expr6: expr6 DOT operand | expr6 OPEN_BRACKET operand CLOSE_BRACKET | operand;
 // Sub-expression
 sub_expr: OPEN_PARENTHESIS expr CLOSE_PARENTHESIS;
 
@@ -122,7 +123,6 @@ operand: INTEGER_LITERAL
         | NIL_LITERAL
         | array_literal
         | struct_literal
-        | struct_array_access
         | IDENTIFIER
         | func_call
         | method_call
