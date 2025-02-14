@@ -51,19 +51,8 @@ func main() {
 
     def test_parser_03(self):
         inp = \
-            """// Test case 3: Struct definition, instantiation, and field access
-type Point struct {
-    x int
-    y int;
-}
-func main() {
-    var p Point = {x: 10, y: 20};
-    p.x = p.x + 5;
-    println(p.x)
-    println(p.y)
-}
-"""
-        out = "Error on line 7 col 19: {"
+            """const Votien = [1.]ID{1, 3};"""
+        out = "successful"
         ParserSuite.parserTest += 1
         self.assertTrue(TestParser.checkParser(inp, out, ParserSuite.parserTest))
 
@@ -225,11 +214,18 @@ func main() { var x int = 5 @ 3; }"""
     def test_parser_15(self):
         inp = \
             """
-// Test case 15: Error: Missing brace
-func main()  }
-
-"""
-        out = "Error on line 3 col 14: }"
+            type Calculator interface {
+                                        
+                Add(x, y int) int;
+                Subtract(a, b float, c int) [3]ID;
+                Reset()
+                                        
+                SayHello(name string);
+                                        
+            }
+            type VT interface {}                                                                       
+        """
+        out = "Error on line 11 col 32: }"
         ParserSuite.parserTest += 1
         self.assertTrue(TestParser.checkParser(inp, out, ParserSuite.parserTest))
 
@@ -266,34 +262,26 @@ func main() { var p Point = Point{x: 1, y: 2}; var z int = p.z; }
     def test_parser_19(self):
         inp = \
             """
-        func foo(z int) {
-            for it, val := range 2+3+4 {
-                for z < 10 {
-                    sample := "test tao lao"
-                }
-            }
-        
-        }
-        """
-        out = "successful"
+// Test case 19: Error: Invalid character
+func main() { var x int = 5$; }
+"""
+        out = "$"
         ParserSuite.parserTest += 1
         self.assertTrue(TestParser.checkParser(inp, out, ParserSuite.parserTest))
 
     def test_parser_20(self):
         inp = \
-            """
-// Test case 20: More complex if-else structure
-func main() {
-    var num int = 15;
-    if (num < 10) {
-        println("Less than 10");
-    } else if (num > 20) {
-        println("Greater than 20");
-    } else {
-        println("Between 10 and 20");
-    }
-}
-"""
+            """    
+            func VoTien() {                           
+                for i < 10 {break;}
+                break;
+                continue;
+                return 1;
+                return
+                foo(2 + x, 4 / y); m.goo();                        
+             }
+                                        
+        """
         out = "successful"
         ParserSuite.parserTest += 1
         self.assertTrue(TestParser.checkParser(inp, out, ParserSuite.parserTest))
@@ -1561,8 +1549,8 @@ func main() {
     def test_parser_99(self):
         inp = \
             """
-        const a = 2.x;
+        const a = x.2;
 """
-        out = "Error on line 2 col 21: x"
+        out = "successful"
         ParserSuite.parserTest += 1
         self.assertTrue(TestParser.checkParser(inp, out, ParserSuite.parserTest))

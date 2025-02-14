@@ -50,7 +50,7 @@ decl_typ: primitive_type | IDENTIFIER | array_decl_type;
 
 // Assignment Statement
 assign_stmt: lhs assign_operator expr SEMICOLON;
-lhs: IDENTIFIER | struct_array_access;
+lhs: IDENTIFIER | struct_access | array_access;
 
 // If Statement
 if_stmt: only_if_stmt else_if_list else_stmt? SEMICOLON;
@@ -95,7 +95,7 @@ argument_list: expr (COMMA expr)*;
 method_decl: FUNC OPEN_PARENTHESIS IDENTIFIER IDENTIFIER CLOSE_PARENTHESIS 
         IDENTIFIER OPEN_PARENTHESIS param_list? CLOSE_PARENTHESIS typ? block SEMICOLON;
 // Method call
-method_call: struct_array_access DOT func_call;
+method_call: expr DOT func_call;
 
 
 // Type
@@ -125,7 +125,6 @@ operand: INTEGER_LITERAL
         | struct_literal
         | IDENTIFIER
         | func_call
-        | method_call
         | sub_expr;
 
 
@@ -144,7 +143,7 @@ array_ele: INTEGER_LITERAL | FLOAT_LITERAL | BOOLEAN_LITERAL | STRING_LITERAL | 
         | struct_literal | short_array_literal;
 short_array_literal: OPEN_BRACE array_ele_list CLOSE_BRACE;
 // Array access
-// array_access: array_access array_size_box | IDENTIFIER array_size_box;
+array_access: expr6 array_size_box;
 
 
 // Struct
@@ -157,13 +156,15 @@ struct_literal: IDENTIFIER OPEN_BRACE struct_ele_list? CLOSE_BRACE;
 struct_ele_list: struct_ele (COMMA struct_ele)*;
 struct_ele: IDENTIFIER COLON expr;
 // Struct access
-// struct_access: struct_access DOT IDENTIFIER | IDENTIFIER DOT IDENTIFIER;
-struct_array_access: IDENTIFIER ((DOT IDENTIFIER) | array_size_box)+;
+struct_access: expr6 DOT IDENTIFIER;
+
+// Struct or Array Access
+// struct_array_access: IDENTIFIER ((DOT (IDENTIFIER | func_call)) | array_size_box)* ((DOT IDENTIFIER) | array_size_box)+;
 
 
 // Interface
 // Interface declaration
-interface_decl: TYPE IDENTIFIER INTERFACE OPEN_BRACE interface_method* CLOSE_BRACE SEMICOLON;
+interface_decl: TYPE IDENTIFIER INTERFACE OPEN_BRACE interface_method+ CLOSE_BRACE SEMICOLON;
 interface_method: IDENTIFIER OPEN_PARENTHESIS param_list? CLOSE_PARENTHESIS typ? SEMICOLON;
 param_list: param_decl (COMMA param_decl)*;
 param_decl: IDENTIFIER (COMMA IDENTIFIER)* typ;
@@ -267,7 +268,7 @@ fragment DECI_PART: [0-9]*;
 fragment EXP_PART: [eE] [+-]? [0-9]+;
 
 // String Literals
-STRING_LITERAL: (DOUBLE_QUOTE DOUBLE_QUOTE | DOUBLE_QUOTE INSIDE_STRING+ DOUBLE_QUOTE) {self.text = self.text[1:-1]};
+STRING_LITERAL: (DOUBLE_QUOTE DOUBLE_QUOTE | DOUBLE_QUOTE INSIDE_STRING+ DOUBLE_QUOTE);// {self.text = self.text[1:-1]};
 fragment INSIDE_STRING: ESCAPE_SEQUENCE | ~[\n\r"\\];
 fragment DOUBLE_QUOTE: ["];
 fragment BACKLASH: '\\';

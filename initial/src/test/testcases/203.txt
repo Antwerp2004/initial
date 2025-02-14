@@ -1,11 +1,1 @@
-// Test case 3: Struct definition, instantiation, and field access
-type Point struct {
-    x int
-    y int;
-}
-func main() {
-    var p Point = {x: 10, y: 20};
-    p.x = p.x + 5;
-    println(p.x)
-    println(p.y)
-}
+const Votien = [1.]ID{1, 3};

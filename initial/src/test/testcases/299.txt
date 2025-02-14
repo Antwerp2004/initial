@@ -1,2 +1,2 @@
 
-        const a = 2.x;
+        const a = x.2;

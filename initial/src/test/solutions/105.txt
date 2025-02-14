@@ -1,1 +1,1 @@
-The Thing,!,<EOF>
+"The Thing",!,<EOF>

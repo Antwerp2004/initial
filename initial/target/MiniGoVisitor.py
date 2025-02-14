@@ -249,6 +249,11 @@ class MiniGoVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by MiniGoParser#array_access.
+    def visitArray_access(self, ctx:MiniGoParser.Array_accessContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by MiniGoParser#struct_decl.
     def visitStruct_decl(self, ctx:MiniGoParser.Struct_declContext):
         return self.visitChildren(ctx)
@@ -274,8 +279,8 @@ class MiniGoVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by MiniGoParser#struct_array_access.
-    def visitStruct_array_access(self, ctx:MiniGoParser.Struct_array_accessContext):
+    # Visit a parse tree produced by MiniGoParser#struct_access.
+    def visitStruct_access(self, ctx:MiniGoParser.Struct_accessContext):
         return self.visitChildren(ctx)
 
 

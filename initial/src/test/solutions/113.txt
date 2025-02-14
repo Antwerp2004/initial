@@ -1,1 +1,1 @@
-soba,no,'\\fried ~!@#$%^&*()_+[;],<EOF>
+"soba,no,'\\fried ~!@#$%^&*()_+[;]",<EOF>

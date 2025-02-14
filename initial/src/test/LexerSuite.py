@@ -7,7 +7,7 @@ class LexerSuite(unittest.TestCase):
     ##### String-literal testcases #####
     def test_lexer_00(self):
         inp = """ "" """
-        out = ",<EOF>"
+        out = "\"\",<EOF>"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
@@ -25,7 +25,7 @@ class LexerSuite(unittest.TestCase):
 
     def test_lexer_03(self):
         inp = """ "Gravity\tFalls\\n,<EOF>" """
-        out = "Gravity\tFalls\\n,<EOF>,<EOF>"
+        out = "\"Gravity\tFalls\\n,<EOF>\",<EOF>"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
@@ -37,7 +37,7 @@ class LexerSuite(unittest.TestCase):
 
     def test_lexer_05(self):
         inp = """ "The Thing"! """
-        out = "The Thing,!,<EOF>"
+        out = "\"The Thing\",!,<EOF>"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
@@ -49,7 +49,7 @@ class LexerSuite(unittest.TestCase):
 
     def test_lexer_07(self):
         inp = """ "Kaguya-Hime: '\"Love is Wrong?\"" """
-        out = "Kaguya-Hime: ',Love,is,Wrong,ErrorToken ?"
+        out = "\"Kaguya-Hime: '\",Love,is,Wrong,ErrorToken ?"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
@@ -67,7 +67,7 @@ class LexerSuite(unittest.TestCase):
 
     def test_lexer_10(self):
         inp = """ "2001'" """
-        out = "2001',<EOF>"
+        out = "\"2001'\",<EOF>"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
@@ -85,7 +85,7 @@ class LexerSuite(unittest.TestCase):
 
     def test_lexer_13(self):
         inp = """ "soba,no,'\\\\fried ~!@#$%^&*()_+[;]" """
-        out = "soba,no,'\\\\fried ~!@#$%^&*()_+[;],<EOF>"
+        out = "\"soba,no,'\\\\fried ~!@#$%^&*()_+[;]\",<EOF>"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
@@ -97,25 +97,25 @@ class LexerSuite(unittest.TestCase):
 
     def test_lexer_15(self):
         inp = """ "Dark" Age'" """
-        out = "Dark,Age,ErrorToken '"
+        out = "\"Dark\",Age,ErrorToken '"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
     def test_lexer_16(self):
         inp = """ "814 + 94 + 343" """
-        out = "814 + 94 + 343,<EOF>"
+        out = "\"814 + 94 + 343\",<EOF>"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
     def test_lexer_17(self):
         inp = """ "func main() return 0" """
-        out = "func main() return 0,<EOF>"
+        out = "\"func main() return 0\",<EOF>"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
     def test_lexer_18(self):
         inp = """ ""Shingeki==no" Kyojin" """
-        out = ",Shingeki,==,no, Kyojin,<EOF>"
+        out = "\"\",Shingeki,==,no,\" Kyojin\",<EOF>"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
@@ -127,25 +127,25 @@ class LexerSuite(unittest.TestCase):
 
     def test_lexer_20(self):
         inp = """ "Wuthering |Heights\"abc\"bb" """
-        out = """Wuthering |Heights,abc,bb,<EOF>"""
+        out = """\"Wuthering |Heights\",abc,\"bb\",<EOF>"""
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
     def test_lexer_21(self):
         inp = """ "'" """
-        out = "',<EOF>"
+        out = "\"'\",<EOF>"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
     def test_lexer_22(self):
         inp = """ "{Lord<h>`<\\\\h>of the Rings}" """
-        out = "{Lord<h>`<\\\\h>of the Rings},<EOF>"
+        out = "\"{Lord<h>`<\\\\h>of the Rings}\",<EOF>"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
     def test_lexer_23(self):
         inp = """ "Gatsby.\''no?" """
-        out = "Gatsby.\''no?,<EOF>"
+        out = "\"Gatsby.\''no?\",<EOF>"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
@@ -283,13 +283,13 @@ class LexerSuite(unittest.TestCase):
 
     def test_lexer_44(self):
         inp = "main ... \"method\" == main_method"
-        out = "main,.,.,.,method,==,main_method,<EOF>"
+        out = "main,.,.,.,\"method\",==,main_method,<EOF>"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
     def test_lexer_45(self):
         inp = "x > \"y\" < z >= (t <= u) && v ! w"
-        out = "x,>,y,<,z,>=,(,t,<=,u,),&&,v,!,w,<EOF>"
+        out = "x,>,\"y\",<,z,>=,(,t,<=,u,),&&,v,!,w,<EOF>"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
@@ -313,7 +313,7 @@ class LexerSuite(unittest.TestCase):
 
     def test_lexer_49(self):
         inp = "1 + -2(\"var'\")nil"
-        out = "1,+,-,2,(,var',),nil,<EOF>"
+        out = "1,+,-,2,(,\"var'\",),nil,<EOF>"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
@@ -374,7 +374,7 @@ var x = 7 + (t - false)
             """func bar( arr int,,){
 x[2][8] := [3]{1,2,\"3\"} + [2]{4,\"5\",6}
 }"""
-        out = "func,bar,(,arr,int,,,,,),{,x,[,2,],[,8,],:=,[,3,],{,1,,,2,,,3,},+,[,2,],{,4,,,5,,,6,},;,},<EOF>"
+        out = "func,bar,(,arr,int,,,,,),{,x,[,2,],[,8,],:=,[,3,],{,1,,,2,,,\"3\",},+,[,2,],{,4,,,\"5\",,,6,},;,},<EOF>"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
@@ -393,7 +393,7 @@ for i; i <= x / 2; i += 1{
 
 }
 """
-        out = "func,min,(,int,a,,,string,b,),{,if,(,x,<=,false,),{,main,(,a,,,2,,,b,),;,},;,for,i,;,i,<=,x,/,2,;,i,+=,1,{,loop1,(,arr,[,a,(,b,),],[,b,(,a,),],),;,loop2,(,arr,[,a,(,b,),],,,b,[,2,],),;,},;,},;,<EOF>"
+        out = "func,min,(,int,a,,,string,b,),{,if,(,x,<=,false,),{,main,(,a,,,2,,,\"b\",),;,},;,for,i,;,i,<=,x,/,2,;,i,+=,1,{,loop1,(,arr,[,a,(,b,),],[,b,(,a,),],),;,loop2,(,arr,[,a,(,b,),],,,b,[,2,],),;,},;,},;,<EOF>"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
@@ -408,7 +408,7 @@ else doSomethingElse(doSomethingElse,foo[3.2,3])
 }
 
 """
-        out = "func,min,(,a,int,,,b,string,),{,if,(,boolean,),{,doSomething,(,a,,,2,,,b,),;,},;,elif,(,abc,>,abc,),{,doSomethingElif,(,b,,,true,,,foo,(,x,,,2,),),;,},;,else,doSomethingElse,(,doSomethingElse,,,foo,[,3.2,,,3,],),;,},;,<EOF>"
+        out = "func,min,(,a,int,,,b,string,),{,if,(,boolean,),{,doSomething,(,a,,,2,,,\"b\",),;,},;,elif,(,abc,>,\"abc\",),{,doSomethingElif,(,b,,,true,,,foo,(,x,,,2,),),;,},;,else,doSomethingElse,(,doSomethingElse,,,foo,[,3.2,,,3,],),;,},;,<EOF>"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
@@ -430,7 +430,7 @@ else doSomethingElse(doSomethingElse,foo[3.2,3])
             """func bar(arr float, b boolean) {
 x[2][8] := foo(1,2,\"abcd\",154/4)
 var x int= readString()"""
-        out = "func,bar,(,arr,float,,,b,boolean,),{,x,[,2,],[,8,],:=,foo,(,1,,,2,,,abcd,,,154,/,4,),;,var,x,int,=,readString,(,),<EOF>"
+        out = "func,bar,(,arr,float,,,b,boolean,),{,x,[,2,],[,8,],:=,foo,(,1,,,2,,,\"abcd\",,,154,/,4,),;,var,x,int,=,readString,(,),<EOF>"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
@@ -445,7 +445,7 @@ func main() {
     println(message)
 }
 """
-        out = "const,GREETING,string,=,Hello, World!,;,var,message,string,;,func,main,(,),{,message,=,GREETING,;,println,(,message,),;,},;,<EOF>"
+        out = "const,GREETING,string,=,\"Hello, World!\",;,var,message,string,;,func,main,(,),{,message,=,GREETING,;,println,(,message,),;,},;,<EOF>"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
@@ -476,7 +476,7 @@ func main() {
     }
 }
 """
-        out = "var,x,int,=,7,;,func,main,(,),{,if,(,x,>,5,),{,println,(,x is greater than 5,),;,},else,{,println,(,x is not greater than 5,),;,},;,},;,<EOF>"
+        out = "var,x,int,=,7,;,func,main,(,),{,if,(,x,>,5,),{,println,(,\"x is greater than 5\",),;,},else,{,println,(,\"x is not greater than 5\",),;,},;,},;,<EOF>"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
@@ -584,7 +584,7 @@ func main() {
     }
 }
 """
-        out = "var,age,int,=,25,;,var,isStudent,bool,=,false,;,func,main,(,),{,if,(,age,<,30,),{,if,(,!,isStudent,),{,println,(,Young professional,),;,},else,{,println,(,Young student,),;,},;,},else,{,println,(,Experienced,),;,},;,},;,<EOF>"
+        out = "var,age,int,=,25,;,var,isStudent,bool,=,false,;,func,main,(,),{,if,(,age,<,30,),{,if,(,!,isStudent,),{,println,(,\"Young professional\",),;,},else,{,println,(,\"Young student\",),;,},;,},else,{,println,(,\"Experienced\",),;,},;,},;,<EOF>"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
@@ -736,7 +736,7 @@ func main() {
     println(x)
 }
 """
-        out = "var,x,int,=,5,;,func,main,(,),{,var,x,string,=,hello,;,println,(,x,),;,},;,<EOF>"
+        out = "var,x,int,=,5,;,func,main,(,),{,var,x,string,=,\"hello\",;,println,(,x,),;,},;,<EOF>"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
@@ -778,7 +778,7 @@ func main() {
     }
 }
 """
-        out = "var,a,int,=,10,;,var,b,int,=,5,;,var,c,string,=,hello,;,func,main,(,),{,if,(,(,a,>,5,&&,b,<,10,),||,c,==,world,),{,if,(,a,+,b,==,15,),{,println,(,Condition met,),;,},else,{,println,(,Inner condition failed,),;,},;,},else,{,println,(,Outer condition failed,),;,},;,},;,<EOF>"
+        out = "var,a,int,=,10,;,var,b,int,=,5,;,var,c,string,=,\"hello\",;,func,main,(,),{,if,(,(,a,>,5,&&,b,<,10,),||,c,==,\"world\",),{,if,(,a,+,b,==,15,),{,println,(,\"Condition met\",),;,},else,{,println,(,\"Inner condition failed\",),;,},;,},else,{,println,(,\"Outer condition failed\",),;,},;,},;,<EOF>"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
@@ -830,7 +830,7 @@ func main() {
 
 }
 """
-        out = "type,Person,struct,{,name,string,;,age,int,;,},;,var,p,Person,;,func,main,(,),{,p,.,name,=,Alice,;,p,.,age,=,30,;,println,(,p,.,name,,,p,.,age,),;,var,message,string,=,p,.,name,+, is ,+,p,.,age,+, years old,;,},;,<EOF>"
+        out = "type,Person,struct,{,name,string,;,age,int,;,},;,var,p,Person,;,func,main,(,),{,p,.,name,=,\"Alice\",;,p,.,age,=,30,;,println,(,p,.,name,,,p,.,age,),;,var,message,string,=,p,.,name,+,\" is \",+,p,.,age,+,\" years old\",;,},;,<EOF>"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
@@ -883,7 +883,7 @@ func main() {
     println(x, y, z, PI)
 }
 """
-        out = "var,x,int,=,10,;,var,y,string,=,hello,;,var,z,bool,=,true,;,const,PI,float,=,3.14,;,func,main,(,),{,println,(,x,,,y,,,z,,,PI,),;,},;,<EOF>"
+        out = "var,x,int,=,10,;,var,y,string,=,\"hello\",;,var,z,bool,=,true,;,const,PI,float,=,3.14,;,func,main,(,),{,println,(,x,,,y,,,z,,,PI,),;,},;,<EOF>"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
@@ -908,7 +908,7 @@ func main() {
     println(p.name, p.address.street, p.address.city)
 }
 """
-        out = "type,Address,struct,{,street,string,;,city,string,;,},;,type,Person,struct,{,name,string,;,address,Address,;,},;,var,p,Person,;,func,main,(,),{,p,.,name,=,Bob,;,p,.,address,.,street,=,123 Main St,;,p,.,address,.,city,=,Anytown,;,println,(,p,.,name,,,p,.,address,.,street,,,p,.,address,.,city,),;,},;,<EOF>"
+        out = "type,Address,struct,{,street,string,;,city,string,;,},;,type,Person,struct,{,name,string,;,address,Address,;,},;,var,p,Person,;,func,main,(,),{,p,.,name,=,\"Bob\",;,p,.,address,.,street,=,\"123 Main St\",;,p,.,address,.,city,=,\"Anytown\",;,println,(,p,.,name,,,p,.,address,.,street,,,p,.,address,.,city,),;,},;,<EOF>"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
@@ -928,7 +928,7 @@ func main() {
     }
 }
 """
-        out = "func,isEven,(,n,int,),bool,{,return,n,%,2,==,0,;,},;,var,num,int,=,8,;,func,main,(,),{,if,(,isEven,(,num,),),{,println,(,Even,),;,},else,{,println,(,Odd,),;,},;,},;,<EOF>"
+        out = "func,isEven,(,n,int,),bool,{,return,n,%,2,==,0,;,},;,var,num,int,=,8,;,func,main,(,),{,if,(,isEven,(,num,),),{,println,(,\"Even\",),;,},else,{,println,(,\"Odd\",),;,},;,},;,<EOF>"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
@@ -972,7 +972,7 @@ func main() {
         println("x <= 5")
 }
 """
-        out = "var,x,int,=,10,;,func,main,(,),{,if,(,x,>,5,),;,println,(,x > 5,),;,else,println,(,x <= 5,),;,},;,<EOF>"
+        out = "var,x,int,=,10,;,func,main,(,),{,if,(,x,>,5,),;,println,(,\"x > 5\",),;,else,println,(,\"x <= 5\",),;,},;,<EOF>"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
@@ -1027,7 +1027,7 @@ func main() {
     println(numbers[0], numbers[1], numbers[2])
 }
 """
-        out = "var,numbers,[,3,],int,=,{,1,,,hello,,,3,},;,func,main,(,),{,println,(,numbers,[,0,],,,numbers,[,1,],,,numbers,[,2,],),;,},;,<EOF>"
+        out = "var,numbers,[,3,],int,=,{,1,,,\"hello\",,,3,},;,func,main,(,),{,println,(,numbers,[,0,],,,numbers,[,1,],,,numbers,[,2,],),;,},;,<EOF>"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
@@ -1051,7 +1051,7 @@ func main() {
     println("This program does not have a main function")
 }
 """
-        out = "func,someOtherFunction,(,),{,println,(,This program does not have a main function,),;,},;,<EOF>"
+        out = "func,someOtherFunction,(,),{,println,(,\"This program does not have a main function\",),;,},;,<EOF>"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
@@ -1075,7 +1075,7 @@ func main() {
 
 }
 """
-        out = "type,MyInterface,interface,{,doSomething,(,),;,},;,type,MyType,struct,{,},;,func,(,m,MyType,),doSomething,(,),{,println,(,Hello,),;,},;,func,main,(,),{,var,i,MyInterface,;,var,m,MyType,;,i,=,m,;,},;,<EOF>"
+        out = "type,MyInterface,interface,{,doSomething,(,),;,},;,type,MyType,struct,{,},;,func,(,m,MyType,),doSomething,(,),{,println,(,\"Hello\",),;,},;,func,main,(,),{,var,i,MyInterface,;,var,m,MyType,;,i,=,m,;,},;,<EOF>"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
@@ -1099,6 +1099,6 @@ func main() {
 	result := mt.someMethod()
 	println(result)
 }"""
-        out = "type,MyType,struct,{,Name,string,;,},;,func,(,mt,MyType,),someMethod,(,),string,{,for,i,:=,0,;,i,<,10,;,i,+,+,{,if,i,==,5,{,return,Found 5!,;,},;,},;,return,Not found,;,},;,func,main,(,),{,mt,:=,MyType,{,Name,:,Example,},;,result,:=,mt,.,someMethod,(,),;,println,(,result,),;,},<EOF>"
+        out = "type,MyType,struct,{,Name,string,;,},;,func,(,mt,MyType,),someMethod,(,),string,{,for,i,:=,0,;,i,<,10,;,i,+,+,{,if,i,==,5,{,return,\"Found 5!\",;,},;,},;,return,\"Not found\",;,},;,func,main,(,),{,mt,:=,MyType,{,Name,:,\"Example\",},;,result,:=,mt,.,someMethod,(,),;,println,(,result,),;,},<EOF>"
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))

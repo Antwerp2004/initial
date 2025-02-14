@@ -1,1 +1,1 @@
-main,.,.,.,method,==,main_method,<EOF>
+main,.,.,.,"method",==,main_method,<EOF>

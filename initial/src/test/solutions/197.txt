@@ -1,1 +1,1 @@
-func,someOtherFunction,(,),{,println,(,This program does not have a main function,),;,},;,<EOF>
+func,someOtherFunction,(,),{,println,(,"This program does not have a main function",),;,},;,<EOF>
