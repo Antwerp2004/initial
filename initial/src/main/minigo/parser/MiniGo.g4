@@ -69,7 +69,7 @@ initialization: IDENTIFIER assign_operator expr SEMICOLON
               | VAR IDENTIFIER (EQUAL expr | decl_typ EQUAL expr) SEMICOLON;
 update: IDENTIFIER assign_operator expr;
 // For Loop with Range
-for_loop_range: FOR IDENTIFIER COMMA IDENTIFIER ASSIGNMENT_SIGN RANGE IDENTIFIER block SEMICOLON;
+for_loop_range: FOR IDENTIFIER COMMA IDENTIFIER ASSIGNMENT_SIGN RANGE expr block SEMICOLON;
 
 // Break Statement
 break_stmt: BREAK SEMICOLON;

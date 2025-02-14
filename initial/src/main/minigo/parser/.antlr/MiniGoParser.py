@@ -123,7 +123,7 @@ def serializedATN():
         1,0,0,0,260,35,1,0,0,0,261,262,5,62,0,0,262,263,3,122,61,0,263,264,
         3,62,31,0,264,37,1,0,0,0,265,266,5,5,0,0,266,267,5,62,0,0,267,268,
         5,48,0,0,268,269,5,62,0,0,269,270,5,34,0,0,270,271,5,19,0,0,271,
-        272,5,62,0,0,272,273,3,6,3,0,273,274,5,49,0,0,274,39,1,0,0,0,275,
+        272,3,62,31,0,272,273,3,6,3,0,273,274,5,49,0,0,274,39,1,0,0,0,275,
         276,5,18,0,0,276,277,5,49,0,0,277,41,1,0,0,0,278,279,5,17,0,0,279,
         280,5,49,0,0,280,43,1,0,0,0,281,284,3,50,25,0,282,284,3,56,28,0,
         283,281,1,0,0,0,283,282,1,0,0,0,284,285,1,0,0,0,285,286,5,49,0,0,
@@ -1664,6 +1664,10 @@ class MiniGoParser ( Parser ):
         def RANGE(self):
             return self.getToken(MiniGoParser.RANGE, 0)
 
+        def expr(self):
+            return self.getTypedRuleContext(MiniGoParser.ExprContext,0)
+
+
         def block(self):
             return self.getTypedRuleContext(MiniGoParser.BlockContext,0)
 
@@ -1696,7 +1700,7 @@ class MiniGoParser ( Parser ):
             self.state = 270
             self.match(MiniGoParser.RANGE)
             self.state = 271
-            self.match(MiniGoParser.IDENTIFIER)
+            self.expr(0)
             self.state = 272
             self.block()
             self.state = 273

@@ -1,3 +1,10 @@
 
-// Test case 19: Error: Invalid character
-func main() { var x int = 5$; }
+        func foo(z int) {
+            for it, val := range 2+3+4 {
+                for z < 10 {
+                    sample := "test tao lao"
+                }
+            }
+        
+        }
+        

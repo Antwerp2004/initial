@@ -266,10 +266,16 @@ func main() { var p Point = Point{x: 1, y: 2}; var z int = p.z; }
     def test_parser_19(self):
         inp = \
             """
-// Test case 19: Error: Invalid character
-func main() { var x int = 5$; }
-"""
-        out = "$"
+        func foo(z int) {
+            for it, val := range 2+3+4 {
+                for z < 10 {
+                    sample := "test tao lao"
+                }
+            }
+        
+        }
+        """
+        out = "successful"
         ParserSuite.parserTest += 1
         self.assertTrue(TestParser.checkParser(inp, out, ParserSuite.parserTest))
 
