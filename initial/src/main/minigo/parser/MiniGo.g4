@@ -46,7 +46,7 @@ block: OPEN_BRACE stmt+ CLOSE_BRACE;
 // Variable, Constant declaration Statement
 var_decl: VAR IDENTIFIER (decl_typ | EQUAL expr | decl_typ EQUAL expr) SEMICOLON;
 const_decl: CONST IDENTIFIER EQUAL expr SEMICOLON;
-decl_typ: primitive_type | IDENTIFIER | array_decl_type;
+decl_typ: primitive_type | IDENTIFIER | array_type;
 
 // Assignment Statement
 assign_stmt: lhs assign_operator expr SEMICOLON;
@@ -95,7 +95,7 @@ argument_list: expr (COMMA expr)*;
 method_decl: FUNC OPEN_PARENTHESIS IDENTIFIER IDENTIFIER CLOSE_PARENTHESIS 
         IDENTIFIER OPEN_PARENTHESIS param_list? CLOSE_PARENTHESIS typ? block SEMICOLON;
 // Method call
-method_call: expr DOT func_call;
+method_call: expr6 DOT func_call;
 
 
 // Type
@@ -110,7 +110,7 @@ expr2: expr2 relational_operator expr3 | expr3;
 expr3: expr3 arith_low_operator expr4 | expr4;
 expr4: expr4 arith_high_operator expr5 | expr5;
 expr5: (NOT | SUB) expr5 | expr6;
-expr6: expr6 DOT operand | expr6 OPEN_BRACKET operand CLOSE_BRACKET | operand;
+expr6: expr6 DOT operand | expr6 OPEN_BRACKET expr CLOSE_BRACKET | operand;
 // Sub-expression
 sub_expr: OPEN_PARENTHESIS expr CLOSE_PARENTHESIS;
 
@@ -129,21 +129,19 @@ operand: INTEGER_LITERAL
 
 
 // Array
-// Array declaration type
-array_decl_type: array_decl_size_box array_decl_type | array_decl_size_box (primitive_type | IDENTIFIER | array_decl_type);
-array_decl_size_box: OPEN_BRACKET (INTEGER_LITERAL | IDENTIFIER) CLOSE_BRACKET;
 // Array type
-array_type: array_size_box array_type | array_size_box (primitive_type | IDENTIFIER | array_type);
-array_size_box: OPEN_BRACKET expr CLOSE_BRACKET;
+array_type: array_literal_box array_type | array_literal_box (primitive_type | IDENTIFIER | array_type);
+array_literal_box: OPEN_BRACKET (INTEGER_LITERAL | IDENTIFIER) CLOSE_BRACKET;
+array_access_box: OPEN_BRACKET expr CLOSE_BRACKET;
 
 // Array Literal
 array_literal: array_type OPEN_BRACE array_ele_list+ CLOSE_BRACE;
 array_ele_list: array_ele (COMMA array_ele)*;
-array_ele: INTEGER_LITERAL | FLOAT_LITERAL | BOOLEAN_LITERAL | STRING_LITERAL | IDENTIFIER
-        | struct_literal | short_array_literal;
+array_ele: INTEGER_LITERAL | FLOAT_LITERAL | BOOLEAN_LITERAL | STRING_LITERAL | NIL_LITERAL
+         | IDENTIFIER | struct_literal | short_array_literal;
 short_array_literal: OPEN_BRACE array_ele_list CLOSE_BRACE;
 // Array access
-array_access: expr6 array_size_box;
+array_access: expr6 array_access_box+;
 
 
 // Struct
@@ -155,11 +153,8 @@ struct_field: IDENTIFIER typ SEMICOLON;
 struct_literal: IDENTIFIER OPEN_BRACE struct_ele_list? CLOSE_BRACE;
 struct_ele_list: struct_ele (COMMA struct_ele)*;
 struct_ele: IDENTIFIER COLON expr;
-// Struct access
+// Struct Access
 struct_access: expr6 DOT IDENTIFIER;
-
-// Struct or Array Access
-// struct_array_access: IDENTIFIER ((DOT (IDENTIFIER | func_call)) | array_size_box)* ((DOT IDENTIFIER) | array_size_box)+;
 
 
 // Interface
@@ -203,8 +198,6 @@ VAR: 'var';
 CONTINUE: 'continue';
 BREAK: 'break';
 RANGE: 'range';
-// TRUE: 'true';
-// FALSE: 'false';
 
 
 // Operators
@@ -302,5 +295,11 @@ IDENTIFIER: [A-Za-z_] [A-Za-z_0-9]*;
 
 
 ILLEGAL_ESCAPE: DOUBLE_QUOTE INSIDE_STRING* BACKLASH ~[ntr\\] {raise IllegalEscape(self.text)};
-UNCLOSE_STRING: DOUBLE_QUOTE INSIDE_STRING* ([\r\n] | EOF) {raise UncloseString(self.text)};
+UNCLOSE_STRING: DOUBLE_QUOTE INSIDE_STRING* ([\r\n] | EOF) 
+                {
+                    if self.text[-1] in ['\r', '\n']:
+                        raise UncloseString(self.text[:-1])
+                    else:
+                        raise UncloseString(self.text)
+                };
 ERROR_CHAR: . {raise ErrorToken(self.text)};

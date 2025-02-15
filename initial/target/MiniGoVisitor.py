@@ -209,23 +209,18 @@ class MiniGoVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by MiniGoParser#array_decl_type.
-    def visitArray_decl_type(self, ctx:MiniGoParser.Array_decl_typeContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by MiniGoParser#array_decl_size_box.
-    def visitArray_decl_size_box(self, ctx:MiniGoParser.Array_decl_size_boxContext):
-        return self.visitChildren(ctx)
-
-
     # Visit a parse tree produced by MiniGoParser#array_type.
     def visitArray_type(self, ctx:MiniGoParser.Array_typeContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by MiniGoParser#array_size_box.
-    def visitArray_size_box(self, ctx:MiniGoParser.Array_size_boxContext):
+    # Visit a parse tree produced by MiniGoParser#array_literal_box.
+    def visitArray_literal_box(self, ctx:MiniGoParser.Array_literal_boxContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MiniGoParser#array_access_box.
+    def visitArray_access_box(self, ctx:MiniGoParser.Array_access_boxContext):
         return self.visitChildren(ctx)
 
 

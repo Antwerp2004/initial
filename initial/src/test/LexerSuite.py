@@ -13,7 +13,7 @@ class LexerSuite(unittest.TestCase):
 
     def test_lexer_01(self):
         inp = """ "\n" """
-        out = "Unclosed string: \"\n"
+        out = "Unclosed string: \""
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
@@ -61,7 +61,7 @@ class LexerSuite(unittest.TestCase):
 
     def test_lexer_09(self):
         inp = """ "Fate/destiny: \nHeaven\'s Hell" """
-        out = "Unclosed string: \"Fate/destiny: \n"
+        out = "Unclosed string: \"Fate/destiny: "
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
@@ -684,8 +684,7 @@ func main() {
     println(message)
 }
 """
-        out = """var,message,string,=,Unclosed string: \"This string contains a newline
-"""
+        out = """var,message,string,=,Unclosed string: \"This string contains a newline"""
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 
@@ -710,7 +709,7 @@ func main() {
     println(message)
 }
 """
-        out = """var,message,string,=,Unclosed string: "This string is not terminated\n"""
+        out = """var,message,string,=,Unclosed string: "This string is not terminated"""
         LexerSuite.lexerTest += 1
         self.assertTrue(TestLexer.checkLexeme(inp, out, LexerSuite.lexerTest))
 

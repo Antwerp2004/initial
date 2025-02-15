@@ -1,1 +1,1 @@
-"This string contains a newline
+"This string contains a newline

@@ -378,7 +378,12 @@ class MiniGoLexer(Lexer):
 
     def UNCLOSE_STRING_action(self, localctx:RuleContext , actionIndex:int):
         if actionIndex == 2:
-            raise UncloseString(self.text)
+
+                                if self.text[-1] in ['\r', '\n']:
+                                    raise UncloseString(self.text[:-1])
+                                else:
+                                    raise UncloseString(self.text)
+                            
      
 
     def ERROR_CHAR_action(self, localctx:RuleContext , actionIndex:int):

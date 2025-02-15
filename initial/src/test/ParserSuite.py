@@ -52,7 +52,7 @@ func main() {
     def test_parser_03(self):
         inp = \
             """const Votien = [1.]ID{1, 3};"""
-        out = "successful"
+        out = "Error on line 1 col 17: 1."
         ParserSuite.parserTest += 1
         self.assertTrue(TestParser.checkParser(inp, out, ParserSuite.parserTest))
 
@@ -380,7 +380,7 @@ func main() {
     println(message);
 }
 """
-        out = """"This is a very long string\n"""
+        out = """"This is a very long string"""
         ParserSuite.parserTest += 1
         self.assertTrue(TestParser.checkParser(inp, out, ParserSuite.parserTest))
 
@@ -1126,7 +1126,7 @@ func main() {
     println(message)
 }
 """
-        out = """"This string contains a newline\n"""
+        out = """"This string contains a newline"""
         ParserSuite.parserTest += 1
         self.assertTrue(TestParser.checkParser(inp, out, ParserSuite.parserTest))
 
